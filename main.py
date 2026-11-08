@@ -9,7 +9,8 @@ HEADER_LINES = 8
 ENCODING = 'latin-1'
 DELIMITER = ';'
 DECIMAL = ','
-BASE_DIR = os.path.dirname(os.path.abspath(__file__)) if '__file__' in globals() else os.getcwd()
+PASTA_PADRAO = r'e:\filli\OneDrive\Documentos\PowerBI e Python'
+BASE_DIR = PASTA_PADRAO if os.path.exists(PASTA_PADRAO) else (os.path.dirname(os.path.abspath(__file__)) if '__file__' in globals() else os.getcwd())
 
 
 def gerar_arquivos_exemplo_se_necessario():

@@ -11,7 +11,72 @@
       "height": 720.0,
       "name": "ReportSection1",
       "ordinal": 0,
-      "visualContainers": [],
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 15,
+          "width": 220,
+          "height": 105,
+          "z": 1,
+          "config": "{\"name\": \"slicer_cidade_1\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 15, \"z\": 1, \"width\": 220, \"height\": 105}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Cidade\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Cidade\"}, \"Name\": \"fato_inmet_horaria.Cidade\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Basic'\"}}}}}]}}}"
+        },
+        {
+          "x": 255,
+          "y": 15,
+          "width": 240,
+          "height": 105,
+          "z": 2,
+          "config": "{\"name\": \"card_temp_media\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 255, \"y\": 15, \"z\": 2, \"width\": 240, \"height\": 105}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Temperatura Media\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Temperatura Media\"}, \"Name\": \"fato_inmet_horaria.Temperatura Media\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 510,
+          "y": 15,
+          "width": 240,
+          "height": 105,
+          "z": 3,
+          "config": "{\"name\": \"card_sens_media\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 510, \"y\": 15, \"z\": 3, \"width\": 240, \"height\": 105}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Sensacao Termica Media\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Sensacao Termica Media\"}, \"Name\": \"fato_inmet_horaria.Sensacao Termica Media\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 765,
+          "y": 15,
+          "width": 240,
+          "height": 105,
+          "z": 4,
+          "config": "{\"name\": \"card_temp_max\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 765, \"y\": 15, \"z\": 4, \"width\": 240, \"height\": 105}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Temperatura Maxima\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Temperatura Maxima\"}, \"Name\": \"fato_inmet_horaria.Temperatura Maxima\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 1020,
+          "y": 15,
+          "width": 240,
+          "height": 105,
+          "z": 5,
+          "config": "{\"name\": \"card_temp_min\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 1020, \"y\": 15, \"z\": 5, \"width\": 240, \"height\": 105}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Temperatura Minima\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Temperatura Minima\"}, \"Name\": \"fato_inmet_horaria.Temperatura Minima\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 20,
+          "y": 135,
+          "width": 610,
+          "height": 270,
+          "z": 6,
+          "config": "{\"name\": \"chart_turno\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 135, \"z\": 6, \"width\": 610, \"height\": 270}}], \"singleVisual\": {\"visualType\": \"clusteredColumnChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fato_inmet_horaria.Turno\", \"active\": true}], \"Y\": [{\"queryRef\": \"fato_inmet_horaria.Temperatura Media\"}], \"Series\": [{\"queryRef\": \"fato_inmet_horaria.Cidade\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Turno\"}, \"Name\": \"fato_inmet_horaria.Turno\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Temperatura Media\"}, \"Name\": \"fato_inmet_horaria.Temperatura Media\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Cidade\"}, \"Name\": \"fato_inmet_horaria.Cidade\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 650,
+          "y": 135,
+          "width": 610,
+          "height": 270,
+          "z": 7,
+          "config": "{\"name\": \"chart_hora\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 650, \"y\": 135, \"z\": 7, \"width\": 610, \"height\": 270}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fato_inmet_horaria.Hora_Dia\", \"active\": true}], \"Y\": [{\"queryRef\": \"fato_inmet_horaria.Temperatura Media\"}], \"Series\": [{\"queryRef\": \"fato_inmet_horaria.Cidade\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Hora_Dia\"}, \"Name\": \"fato_inmet_horaria.Hora_Dia\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Temperatura Media\"}, \"Name\": \"fato_inmet_horaria.Temperatura Media\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Cidade\"}, \"Name\": \"fato_inmet_horaria.Cidade\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 20,
+          "y": 420,
+          "width": 1240,
+          "height": 280,
+          "z": 8,
+          "config": "{\"name\": \"table_estatisticas\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 420, \"z\": 8, \"width\": 1240, \"height\": 280}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"estatisticas_multivariadas_inmet.Cidade\"}, {\"queryRef\": \"estatisticas_multivariadas_inmet.Variavel\"}, {\"queryRef\": \"estatisticas_multivariadas_inmet.N_Amostras\"}, {\"queryRef\": \"estatisticas_multivariadas_inmet.Minimo\"}, {\"queryRef\": \"estatisticas_multivariadas_inmet.Maximo\"}, {\"queryRef\": \"estatisticas_multivariadas_inmet.Media\"}, {\"queryRef\": \"estatisticas_multivariadas_inmet.Mediana\"}, {\"queryRef\": \"estatisticas_multivariadas_inmet.Moda\"}, {\"queryRef\": \"estatisticas_multivariadas_inmet.Amplitude\"}, {\"queryRef\": \"estatisticas_multivariadas_inmet.Desvio_Padrao\"}, {\"queryRef\": \"estatisticas_multivariadas_inmet.CV_Pct\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"estatisticas_multivariadas_inmet\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Cidade\"}, \"Name\": \"estatisticas_multivariadas_inmet.Cidade\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Variavel\"}, \"Name\": \"estatisticas_multivariadas_inmet.Variavel\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"N_Amostras\"}, \"Name\": \"estatisticas_multivariadas_inmet.N_Amostras\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Minimo\"}, \"Name\": \"estatisticas_multivariadas_inmet.Minimo\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Maximo\"}, \"Name\": \"estatisticas_multivariadas_inmet.Maximo\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Media\"}, \"Name\": \"estatisticas_multivariadas_inmet.Media\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Mediana\"}, \"Name\": \"estatisticas_multivariadas_inmet.Mediana\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Moda\"}, \"Name\": \"estatisticas_multivariadas_inmet.Moda\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Amplitude\"}, \"Name\": \"estatisticas_multivariadas_inmet.Amplitude\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Desvio_Padrao\"}, \"Name\": \"estatisticas_multivariadas_inmet.Desvio_Padrao\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"CV_Pct\"}, \"Name\": \"estatisticas_multivariadas_inmet.CV_Pct\"}]}, \"drillFilterOtherVisuals\": true}}"
+        }
+      ],
       "width": 1280.0
     },
     {
@@ -22,7 +87,72 @@
       "height": 720.0,
       "name": "ReportSection2",
       "ordinal": 1,
-      "visualContainers": [],
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 15,
+          "width": 220,
+          "height": 105,
+          "z": 1,
+          "config": "{\"name\": \"slicer_cidade_2\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 15, \"z\": 1, \"width\": 220, \"height\": 105}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Cidade\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Cidade\"}, \"Name\": \"fato_inmet_horaria.Cidade\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Basic'\"}}}}}]}}}"
+        },
+        {
+          "x": 255,
+          "y": 15,
+          "width": 240,
+          "height": 105,
+          "z": 2,
+          "config": "{\"name\": \"card_umid\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 255, \"y\": 15, \"z\": 2, \"width\": 240, \"height\": 105}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Umidade Media\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Umidade Media\"}, \"Name\": \"fato_inmet_horaria.Umidade Media\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 510,
+          "y": 15,
+          "width": 240,
+          "height": 105,
+          "z": 3,
+          "config": "{\"name\": \"card_amp\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 510, \"y\": 15, \"z\": 3, \"width\": 240, \"height\": 105}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Amplitude Termica\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Amplitude Termica\"}, \"Name\": \"fato_inmet_horaria.Amplitude Termica\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 765,
+          "y": 15,
+          "width": 240,
+          "height": 105,
+          "z": 4,
+          "config": "{\"name\": \"card_press\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 765, \"y\": 15, \"z\": 4, \"width\": 240, \"height\": 105}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Pressao Media (mB)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Pressao Media (mB)\"}, \"Name\": \"fato_inmet_horaria.Pressao Media (mB)\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 1020,
+          "y": 15,
+          "width": 240,
+          "height": 105,
+          "z": 5,
+          "config": "{\"name\": \"card_anom\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 1020, \"y\": 15, \"z\": 5, \"width\": 240, \"height\": 105}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Horas Anomalia Termica\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Horas Anomalia Termica\"}, \"Name\": \"fato_inmet_horaria.Horas Anomalia Termica\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 20,
+          "y": 135,
+          "width": 610,
+          "height": 275,
+          "z": 6,
+          "config": "{\"name\": \"chart_conforto\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 135, \"z\": 6, \"width\": 610, \"height\": 275}}], \"singleVisual\": {\"visualType\": \"clusteredBarChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fato_inmet_horaria.Faixa_Conforto\", \"active\": true}], \"Y\": [{\"queryRef\": \"fato_inmet_horaria.Temperatura Media\"}], \"Series\": [{\"queryRef\": \"fato_inmet_horaria.Cidade\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Faixa_Conforto\"}, \"Name\": \"fato_inmet_horaria.Faixa_Conforto\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Temperatura Media\"}, \"Name\": \"fato_inmet_horaria.Temperatura Media\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Cidade\"}, \"Name\": \"fato_inmet_horaria.Cidade\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 650,
+          "y": 135,
+          "width": 610,
+          "height": 275,
+          "z": 7,
+          "config": "{\"name\": \"chart_sensacao_hora\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 650, \"y\": 135, \"z\": 7, \"width\": 610, \"height\": 275}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fato_inmet_horaria.Hora_Dia\", \"active\": true}], \"Y\": [{\"queryRef\": \"fato_inmet_horaria.Sensacao Termica Media\"}], \"Series\": [{\"queryRef\": \"fato_inmet_horaria.Cidade\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Hora_Dia\"}, \"Name\": \"fato_inmet_horaria.Hora_Dia\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Sensacao Termica Media\"}, \"Name\": \"fato_inmet_horaria.Sensacao Termica Media\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Cidade\"}, \"Name\": \"fato_inmet_horaria.Cidade\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 20,
+          "y": 425,
+          "width": 1240,
+          "height": 275,
+          "z": 8,
+          "config": "{\"name\": \"table_regressao\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 425, \"z\": 8, \"width\": 1240, \"height\": 275}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Data\"}, {\"queryRef\": \"fato_inmet_horaria.Hora_UTC\"}, {\"queryRef\": \"fato_inmet_horaria.Cidade\"}, {\"queryRef\": \"fato_inmet_horaria.Temperatura_Ar\"}, {\"queryRef\": \"fato_inmet_horaria.Sensacao_Termica\"}, {\"queryRef\": \"fato_inmet_horaria.Temp_Prevista_Regressao\"}, {\"queryRef\": \"fato_inmet_horaria.Erro_Regressao\"}, {\"queryRef\": \"fato_inmet_horaria.Umidade_Relativa\"}, {\"queryRef\": \"fato_inmet_horaria.Radiacao_Global\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Data\"}, \"Name\": \"fato_inmet_horaria.Data\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Hora_UTC\"}, \"Name\": \"fato_inmet_horaria.Hora_UTC\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Cidade\"}, \"Name\": \"fato_inmet_horaria.Cidade\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Temperatura_Ar\"}, \"Name\": \"fato_inmet_horaria.Temperatura_Ar\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Sensacao_Termica\"}, \"Name\": \"fato_inmet_horaria.Sensacao_Termica\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Temp_Prevista_Regressao\"}, \"Name\": \"fato_inmet_horaria.Temp_Prevista_Regressao\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Erro_Regressao\"}, \"Name\": \"fato_inmet_horaria.Erro_Regressao\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Umidade_Relativa\"}, \"Name\": \"fato_inmet_horaria.Umidade_Relativa\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Radiacao_Global\"}, \"Name\": \"fato_inmet_horaria.Radiacao_Global\"}]}, \"drillFilterOtherVisuals\": true}}"
+        }
+      ],
       "width": 1280.0
     },
     {
@@ -33,9 +163,65 @@
       "height": 720.0,
       "name": "ReportSection3",
       "ordinal": 2,
-      "visualContainers": [],
+      "visualContainers": [
+        {
+          "x": 20,
+          "y": 15,
+          "width": 220,
+          "height": 105,
+          "z": 1,
+          "config": "{\"name\": \"slicer_cidade_3\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 15, \"z\": 1, \"width\": 220, \"height\": 105}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Cidade\", \"active\": true}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Cidade\"}, \"Name\": \"fato_inmet_horaria.Cidade\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Basic'\"}}}}}]}}}"
+        },
+        {
+          "x": 255,
+          "y": 15,
+          "width": 320,
+          "height": 105,
+          "z": 2,
+          "config": "{\"name\": \"card_chuva\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 255, \"y\": 15, \"z\": 2, \"width\": 320, \"height\": 105}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Chuva Acumulada (mm)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Chuva Acumulada (mm)\"}, \"Name\": \"fato_inmet_horaria.Chuva Acumulada (mm)\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 590,
+          "y": 15,
+          "width": 320,
+          "height": 105,
+          "z": 3,
+          "config": "{\"name\": \"card_press_3\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 590, \"y\": 15, \"z\": 3, \"width\": 320, \"height\": 105}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Pressao Media (mB)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Pressao Media (mB)\"}, \"Name\": \"fato_inmet_horaria.Pressao Media (mB)\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 925,
+          "y": 15,
+          "width": 335,
+          "height": 105,
+          "z": 4,
+          "config": "{\"name\": \"card_anom_3\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 925, \"y\": 15, \"z\": 4, \"width\": 335, \"height\": 105}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_horaria.Horas Anomalia Termica\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Horas Anomalia Termica\"}, \"Name\": \"fato_inmet_horaria.Horas Anomalia Termica\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 20,
+          "y": 135,
+          "width": 610,
+          "height": 275,
+          "z": 5,
+          "config": "{\"name\": \"chart_chuva_data\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 135, \"z\": 5, \"width\": 610, \"height\": 275}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fato_inmet_horaria.Data\", \"active\": true}], \"Y\": [{\"queryRef\": \"fato_inmet_horaria.Chuva Acumulada (mm)\"}], \"Series\": [{\"queryRef\": \"fato_inmet_horaria.Cidade\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Data\"}, \"Name\": \"fato_inmet_horaria.Data\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Chuva Acumulada (mm)\"}, \"Name\": \"fato_inmet_horaria.Chuva Acumulada (mm)\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Cidade\"}, \"Name\": \"fato_inmet_horaria.Cidade\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 650,
+          "y": 135,
+          "width": 610,
+          "height": 275,
+          "z": 6,
+          "config": "{\"name\": \"chart_press_hora\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 650, \"y\": 135, \"z\": 6, \"width\": 610, \"height\": 275}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"fato_inmet_horaria.Hora_Dia\", \"active\": true}], \"Y\": [{\"queryRef\": \"fato_inmet_horaria.Pressao Media (mB)\"}], \"Series\": [{\"queryRef\": \"fato_inmet_horaria.Cidade\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_horaria\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Hora_Dia\"}, \"Name\": \"fato_inmet_horaria.Hora_Dia\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Pressao Media (mB)\"}, \"Name\": \"fato_inmet_horaria.Pressao Media (mB)\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Cidade\"}, \"Name\": \"fato_inmet_horaria.Cidade\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 20,
+          "y": 425,
+          "width": 1240,
+          "height": 275,
+          "z": 7,
+          "config": "{\"name\": \"table_diaria\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 20, \"y\": 425, \"z\": 7, \"width\": 1240, \"height\": 275}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"fato_inmet_diaria.Data\"}, {\"queryRef\": \"fato_inmet_diaria.Cidade\"}, {\"queryRef\": \"fato_inmet_diaria.Temp_Min_Dia\"}, {\"queryRef\": \"fato_inmet_diaria.Temp_Media_Dia\"}, {\"queryRef\": \"fato_inmet_diaria.Temp_Max_Dia\"}, {\"queryRef\": \"fato_inmet_diaria.Amplitude_Diaria\"}, {\"queryRef\": \"fato_inmet_diaria.Umidade_Media_Dia\"}, {\"queryRef\": \"fato_inmet_diaria.Chuva_Total_Dia_mm\"}, {\"queryRef\": \"fato_inmet_diaria.Rajada_Max_Dia\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"fato_inmet_diaria\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Data\"}, \"Name\": \"fato_inmet_diaria.Data\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Cidade\"}, \"Name\": \"fato_inmet_diaria.Cidade\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Temp_Min_Dia\"}, \"Name\": \"fato_inmet_diaria.Temp_Min_Dia\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Temp_Media_Dia\"}, \"Name\": \"fato_inmet_diaria.Temp_Media_Dia\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Temp_Max_Dia\"}, \"Name\": \"fato_inmet_diaria.Temp_Max_Dia\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Amplitude_Diaria\"}, \"Name\": \"fato_inmet_diaria.Amplitude_Diaria\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Umidade_Media_Dia\"}, \"Name\": \"fato_inmet_diaria.Umidade_Media_Dia\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Chuva_Total_Dia_mm\"}, \"Name\": \"fato_inmet_diaria.Chuva_Total_Dia_mm\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"Rajada_Max_Dia\"}, \"Name\": \"fato_inmet_diaria.Rajada_Max_Dia\"}]}, \"drillFilterOtherVisuals\": true}}"
+        }
+      ],
       "width": 1280.0
     }
   ]
 }
-

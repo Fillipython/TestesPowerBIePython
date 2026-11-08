@@ -1,0 +1,290 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1550,
+  "model": {
+    "culture": "pt-BR",
+    "dataAccessOptions": {
+      "legacyRedirects": true,
+      "returnErrorValuesAsNull": true
+    },
+    "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "tables": [
+      {
+        "name": "dim_calendario",
+        "columns": [
+          { "name": "Data", "dataType": "dateTime", "sourceColumn": "Data", "formatString": "dd/mm/yyyy" },
+          { "name": "Ano", "dataType": "int64", "sourceColumn": "Ano" },
+          { "name": "Mes_Num", "dataType": "int64", "sourceColumn": "Mes_Num" },
+          { "name": "Mes_Nome", "dataType": "string", "sourceColumn": "Mes_Nome" },
+          { "name": "Dia", "dataType": "int64", "sourceColumn": "Dia" },
+          { "name": "Dia_Semana", "dataType": "string", "sourceColumn": "Dia_Semana" },
+          { "name": "Fim_De_Semana", "dataType": "string", "sourceColumn": "Fim_De_Semana" }
+        ],
+        "partitions": [
+          {
+            "name": "dim_calendario",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Fonte = Csv.Document(File.Contents(\"e:\\filli\\OneDrive\\Documentos\\PowerBI e Python\\modelo_powerbi\\dim_calendario.csv\"),[Delimiter=\";\", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),",
+                "    Tipos = Table.TransformColumnTypes(Cabecalhos,{{\"Data\", type date}, {\"Ano\", Int64.Type}, {\"Mes_Num\", Int64.Type}, {\"Mes_Nome\", type text}, {\"Dia\", Int64.Type}, {\"Dia_Semana\", type text}, {\"Fim_De_Semana\", type text}}, \"pt-BR\")",
+                "in",
+                "    Tipos"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "dim_estacoes_inmet",
+        "columns": [
+          { "name": "Codigo_WMO", "dataType": "string", "sourceColumn": "Codigo_WMO" },
+          { "name": "Cidade", "dataType": "string", "sourceColumn": "Cidade" },
+          { "name": "Regiao", "dataType": "string", "sourceColumn": "Regiao" },
+          { "name": "UF", "dataType": "string", "sourceColumn": "UF" },
+          { "name": "Latitude", "dataType": "double", "sourceColumn": "Latitude" },
+          { "name": "Longitude", "dataType": "double", "sourceColumn": "Longitude" },
+          { "name": "Altitude_m", "dataType": "double", "sourceColumn": "Altitude_m" }
+        ],
+        "partitions": [
+          {
+            "name": "dim_estacoes_inmet",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Fonte = Csv.Document(File.Contents(\"e:\\filli\\OneDrive\\Documentos\\PowerBI e Python\\modelo_powerbi\\dim_estacoes_inmet.csv\"),[Delimiter=\";\", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),",
+                "    Tipos = Table.TransformColumnTypes(Cabecalhos,{{\"Codigo_WMO\", type text}, {\"Cidade\", type text}, {\"Regiao\", type text}, {\"UF\", type text}, {\"Latitude\", type number}, {\"Longitude\", type number}, {\"Altitude_m\", type number}}, \"pt-BR\")",
+                "in",
+                "    Tipos"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "dim_horario_turno",
+        "columns": [
+          { "name": "Hora_Dia", "dataType": "int64", "sourceColumn": "Hora_Dia" },
+          { "name": "Hora_Formatada", "dataType": "string", "sourceColumn": "Hora_Formatada" },
+          { "name": "Turno", "dataType": "string", "sourceColumn": "Turno" },
+          { "name": "Periodo_Solar", "dataType": "string", "sourceColumn": "Periodo_Solar" }
+        ],
+        "partitions": [
+          {
+            "name": "dim_horario_turno",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Fonte = Csv.Document(File.Contents(\"e:\\filli\\OneDrive\\Documentos\\PowerBI e Python\\modelo_powerbi\\dim_horario_turno.csv\"),[Delimiter=\";\", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),",
+                "    Tipos = Table.TransformColumnTypes(Cabecalhos,{{\"Hora_Dia\", Int64.Type}, {\"Hora_Formatada\", type text}, {\"Turno\", type text}, {\"Periodo_Solar\", type text}}, \"pt-BR\")",
+                "in",
+                "    Tipos"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "fato_inmet_horaria",
+        "columns": [
+          { "name": "Data", "dataType": "dateTime", "sourceColumn": "Data", "formatString": "dd/mm/yyyy" },
+          { "name": "Hora_UTC", "dataType": "string", "sourceColumn": "Hora_UTC" },
+          { "name": "Precipitacao_mm", "dataType": "double", "sourceColumn": "Precipitacao_mm" },
+          { "name": "Pressao_Atmosferica", "dataType": "double", "sourceColumn": "Pressao_Atmosferica" },
+          { "name": "Radiacao_Global", "dataType": "double", "sourceColumn": "Radiacao_Global" },
+          { "name": "Temperatura_Ar", "dataType": "double", "sourceColumn": "Temperatura_Ar" },
+          { "name": "Ponto_Orvalho", "dataType": "double", "sourceColumn": "Ponto_Orvalho" },
+          { "name": "Temp_Maxima_Hora", "dataType": "double", "sourceColumn": "Temp_Maxima_Hora" },
+          { "name": "Temp_Minima_Hora", "dataType": "double", "sourceColumn": "Temp_Minima_Hora" },
+          { "name": "Umidade_Relativa", "dataType": "double", "sourceColumn": "Umidade_Relativa" },
+          { "name": "Direcao_Vento", "dataType": "int64", "sourceColumn": "Direcao_Vento" },
+          { "name": "Rajada_Vento", "dataType": "double", "sourceColumn": "Rajada_Vento" },
+          { "name": "Velocidade_Vento", "dataType": "double", "sourceColumn": "Velocidade_Vento" },
+          { "name": "Cidade", "dataType": "string", "sourceColumn": "Cidade" },
+          { "name": "Codigo_WMO", "dataType": "string", "sourceColumn": "Codigo_WMO" },
+          { "name": "Hora_Dia", "dataType": "int64", "sourceColumn": "Hora_Dia" },
+          { "name": "Turno", "dataType": "string", "sourceColumn": "Turno" },
+          { "name": "Periodo_Solar", "dataType": "string", "sourceColumn": "Periodo_Solar" },
+          { "name": "Indice_Hora", "dataType": "int64", "sourceColumn": "Indice_Hora" },
+          { "name": "Amplitude_Horaria", "dataType": "double", "sourceColumn": "Amplitude_Horaria" },
+          { "name": "Sensacao_Termica", "dataType": "double", "sourceColumn": "Sensacao_Termica" },
+          { "name": "Media_Movel_24h", "dataType": "double", "sourceColumn": "Media_Movel_24h" },
+          { "name": "Z_Score_Temp", "dataType": "double", "sourceColumn": "Z_Score_Temp" },
+          { "name": "Anomalia_Termica", "dataType": "string", "sourceColumn": "Anomalia_Termica" },
+          { "name": "Faixa_Conforto", "dataType": "string", "sourceColumn": "Faixa_Conforto" },
+          { "name": "Classificacao_Chuva", "dataType": "string", "sourceColumn": "Classificacao_Chuva" },
+          { "name": "Temp_Prevista_Regressao", "dataType": "double", "sourceColumn": "Temp_Prevista_Regressao" },
+          { "name": "Erro_Regressao", "dataType": "double", "sourceColumn": "Erro_Regressao" }
+        ],
+        "measures": [
+          {
+            "name": "Temperatura Media",
+            "expression": "AVERAGE(fato_inmet_horaria[Temperatura_Ar])",
+            "formatString": "0.00 \"°C\""
+          },
+          {
+            "name": "Sensacao Termica Media",
+            "expression": "AVERAGE(fato_inmet_horaria[Sensacao_Termica])",
+            "formatString": "0.00 \"°C\""
+          },
+          {
+            "name": "Temperatura Maxima",
+            "expression": "MAX(fato_inmet_horaria[Temp_Maxima_Hora])",
+            "formatString": "0.00 \"°C\""
+          },
+          {
+            "name": "Temperatura Minima",
+            "expression": "MIN(fato_inmet_horaria[Temp_Minima_Hora])",
+            "formatString": "0.00 \"°C\""
+          },
+          {
+            "name": "Amplitude Termica",
+            "expression": "MAX(fato_inmet_horaria[Temp_Maxima_Hora]) - MIN(fato_inmet_horaria[Temp_Minima_Hora])",
+            "formatString": "0.00 \"°C\""
+          },
+          {
+            "name": "Umidade Media",
+            "expression": "AVERAGE(fato_inmet_horaria[Umidade_Relativa])",
+            "formatString": "0.0 \"%\""
+          },
+          {
+            "name": "Chuva Acumulada (mm)",
+            "expression": "SUM(fato_inmet_horaria[Precipitacao_mm])",
+            "formatString": "#,0.0 \"mm\""
+          },
+          {
+            "name": "Pressao Media (mB)",
+            "expression": "AVERAGE(fato_inmet_horaria[Pressao_Atmosferica])",
+            "formatString": "#,0.0 \"mB\""
+          },
+          {
+            "name": "Horas Anomalia Termica",
+            "expression": "CALCULATE(COUNTROWS(fato_inmet_horaria), fato_inmet_horaria[Anomalia_Termica] = \"Anomalia\")",
+            "formatString": "#,0"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "fato_inmet_horaria",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Fonte = Csv.Document(File.Contents(\"e:\\filli\\OneDrive\\Documentos\\PowerBI e Python\\modelo_powerbi\\fato_inmet_horaria.csv\"),[Delimiter=\";\", Columns=28, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),",
+                "    Tipos = Table.TransformColumnTypes(Cabecalhos,{{\"Data\", type date}, {\"Hora_UTC\", type text}, {\"Precipitacao_mm\", type number}, {\"Pressao_Atmosferica\", type number}, {\"Radiacao_Global\", type number}, {\"Temperatura_Ar\", type number}, {\"Ponto_Orvalho\", type number}, {\"Temp_Maxima_Hora\", type number}, {\"Temp_Minima_Hora\", type number}, {\"Umidade_Relativa\", type number}, {\"Direcao_Vento\", Int64.Type}, {\"Rajada_Vento\", type number}, {\"Velocidade_Vento\", type number}, {\"Cidade\", type text}, {\"Codigo_WMO\", type text}, {\"Hora_Dia\", Int64.Type}, {\"Turno\", type text}, {\"Periodo_Solar\", type text}, {\"Indice_Hora\", Int64.Type}, {\"Amplitude_Horaria\", type number}, {\"Sensacao_Termica\", type number}, {\"Media_Movel_24h\", type number}, {\"Z_Score_Temp\", type number}, {\"Anomalia_Termica\", type text}, {\"Faixa_Conforto\", type text}, {\"Classificacao_Chuva\", type text}, {\"Temp_Prevista_Regressao\", type number}, {\"Erro_Regressao\", type number}}, \"pt-BR\")",
+                "in",
+                "    Tipos"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "fato_inmet_diaria",
+        "columns": [
+          { "name": "Data", "dataType": "dateTime", "sourceColumn": "Data", "formatString": "dd/mm/yyyy" },
+          { "name": "Codigo_WMO", "dataType": "string", "sourceColumn": "Codigo_WMO" },
+          { "name": "Cidade", "dataType": "string", "sourceColumn": "Cidade" },
+          { "name": "Temp_Min_Dia", "dataType": "double", "sourceColumn": "Temp_Min_Dia" },
+          { "name": "Temp_Media_Dia", "dataType": "double", "sourceColumn": "Temp_Media_Dia" },
+          { "name": "Temp_Max_Dia", "dataType": "double", "sourceColumn": "Temp_Max_Dia" },
+          { "name": "Sensacao_Media_Dia", "dataType": "double", "sourceColumn": "Sensacao_Media_Dia" },
+          { "name": "Umidade_Media_Dia", "dataType": "double", "sourceColumn": "Umidade_Media_Dia" },
+          { "name": "Pressao_Media_Dia", "dataType": "double", "sourceColumn": "Pressao_Media_Dia" },
+          { "name": "Chuva_Total_Dia_mm", "dataType": "double", "sourceColumn": "Chuva_Total_Dia_mm" },
+          { "name": "Radiacao_Total_Dia", "dataType": "double", "sourceColumn": "Radiacao_Total_Dia" },
+          { "name": "Vento_Medio_Dia", "dataType": "double", "sourceColumn": "Vento_Medio_Dia" },
+          { "name": "Rajada_Max_Dia", "dataType": "double", "sourceColumn": "Rajada_Max_Dia" },
+          { "name": "Amplitude_Diaria", "dataType": "double", "sourceColumn": "Amplitude_Diaria" },
+          { "name": "Dia_Com_Chuva", "dataType": "string", "sourceColumn": "Dia_Com_Chuva" }
+        ],
+        "partitions": [
+          {
+            "name": "fato_inmet_diaria",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Fonte = Csv.Document(File.Contents(\"e:\\filli\\OneDrive\\Documentos\\PowerBI e Python\\modelo_powerbi\\fato_inmet_diaria.csv\"),[Delimiter=\";\", Columns=15, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),",
+                "    Tipos = Table.TransformColumnTypes(Cabecalhos,{{\"Data\", type date}, {\"Codigo_WMO\", type text}, {\"Cidade\", type text}, {\"Temp_Min_Dia\", type number}, {\"Temp_Media_Dia\", type number}, {\"Temp_Max_Dia\", type number}, {\"Sensacao_Media_Dia\", type number}, {\"Umidade_Media_Dia\", type number}, {\"Pressao_Media_Dia\", type number}, {\"Chuva_Total_Dia_mm\", type number}, {\"Radiacao_Total_Dia\", type number}, {\"Vento_Medio_Dia\", type number}, {\"Rajada_Max_Dia\", type number}, {\"Amplitude_Diaria\", type number}, {\"Dia_Com_Chuva\", type text}}, \"pt-BR\")",
+                "in",
+                "    Tipos"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "estatisticas_multivariadas_inmet",
+        "columns": [
+          { "name": "Cidade", "dataType": "string", "sourceColumn": "Cidade" },
+          { "name": "Variavel", "dataType": "string", "sourceColumn": "Variavel" },
+          { "name": "N_Amostras", "dataType": "int64", "sourceColumn": "N_Amostras" },
+          { "name": "Minimo", "dataType": "double", "sourceColumn": "Minimo" },
+          { "name": "Maximo", "dataType": "double", "sourceColumn": "Maximo" },
+          { "name": "Media", "dataType": "double", "sourceColumn": "Media" },
+          { "name": "Mediana", "dataType": "double", "sourceColumn": "Mediana" },
+          { "name": "Moda", "dataType": "double", "sourceColumn": "Moda" },
+          { "name": "Amplitude", "dataType": "double", "sourceColumn": "Amplitude" },
+          { "name": "Variancia", "dataType": "double", "sourceColumn": "Variancia" },
+          { "name": "Desvio_Padrao", "dataType": "double", "sourceColumn": "Desvio_Padrao" },
+          { "name": "CV_Pct", "dataType": "double", "sourceColumn": "CV_Pct" }
+        ],
+        "partitions": [
+          {
+            "name": "estatisticas_multivariadas_inmet",
+            "mode": "import",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Fonte = Csv.Document(File.Contents(\"e:\\filli\\OneDrive\\Documentos\\PowerBI e Python\\modelo_powerbi\\estatisticas_multivariadas_inmet.csv\"),[Delimiter=\";\", Columns=12, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
+                "    Cabecalhos = Table.PromoteHeaders(Fonte, [PromoteAllScalars=true]),",
+                "    Tipos = Table.TransformColumnTypes(Cabecalhos,{{\"Cidade\", type text}, {\"Variavel\", type text}, {\"N_Amostras\", Int64.Type}, {\"Minimo\", type number}, {\"Maximo\", type number}, {\"Media\", type number}, {\"Mediana\", type number}, {\"Moda\", type number}, {\"Amplitude\", type number}, {\"Variancia\", type number}, {\"Desvio_Padrao\", type number}, {\"CV_Pct\", type number}}, \"pt-BR\")",
+                "in",
+                "    Tipos"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "rel_calendario_horaria",
+        "fromTable": "fato_inmet_horaria",
+        "fromColumn": "Data",
+        "toTable": "dim_calendario",
+        "toColumn": "Data"
+      },
+      {
+        "name": "rel_estacao_horaria",
+        "fromTable": "fato_inmet_horaria",
+        "fromColumn": "Codigo_WMO",
+        "toTable": "dim_estacoes_inmet",
+        "toColumn": "Codigo_WMO"
+      },
+      {
+        "name": "rel_horario_turno",
+        "fromTable": "fato_inmet_horaria",
+        "fromColumn": "Hora_Dia",
+        "toTable": "dim_horario_turno",
+        "toColumn": "Hora_Dia"
+      }
+    ]
+  }
+}
+

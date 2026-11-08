@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from main import gerar_arquivos_inmet_completos, HEADER_LINES, ENCODING, DELIMITER, DECIMAL, BASE_DIR
+from main import preparar_dados_completos, HEADER_LINES, ENCODING, DELIMITER, DECIMAL, BASE_DIR
 
 PASTA_MODELO = os.path.join(BASE_DIR, 'modelo_powerbi')
 PASTA_RELATORIOS = os.path.join(BASE_DIR, 'relatorios')
@@ -14,20 +14,25 @@ os.makedirs(PASTA_RELATORIOS, exist_ok=True)
 
 
 def carregar_base_completa_inmet():
-    gerar_arquivos_inmet_completos()
+    if not glob.glob(os.path.join(BASE_DIR, '*A511*.CSV')) or not glob.glob(os.path.join(BASE_DIR, '*A521*.CSV')):
+        preparar_dados_completos()
+
     padroes = [
-        ('Timóteo', 'A511', '*TIMOTEO*.CSV'),
-        ('Belo Horizonte', 'A521', '*BELO HORIZONTE*.CSV')
+        ('Timóteo', 'A511', '*A511*.CSV'),
+        ('Belo Horizonte', 'A521', '*A521*.CSV')
     ]
 
     lista_dfs = []
     for cidade, codigo, padrao in padroes:
-        arquivos = glob.glob(os.path.join(BASE_DIR, padrao))
+        arquivos = sorted(glob.glob(os.path.join(BASE_DIR, padrao)))
         for arq in arquivos:
-            df = pd.read_csv(arq, sep=DELIMITER, encoding=ENCODING, skiprows=HEADER_LINES, decimal=DECIMAL)
-            df['Cidade'] = cidade
-            df['Codigo_WMO'] = codigo
-            lista_dfs.append(df)
+            try:
+                df = pd.read_csv(arq, sep=DELIMITER, encoding=ENCODING, skiprows=HEADER_LINES, decimal=DECIMAL)
+                df['Cidade'] = cidade
+                df['Codigo_WMO'] = codigo
+                lista_dfs.append(df)
+            except Exception:
+                pass
 
     df_raw = pd.concat(lista_dfs, ignore_index=True)
 
@@ -36,25 +41,25 @@ def carregar_base_completa_inmet():
         c_up = col.strip().upper()
         if c_up.startswith('DATA'):
             mapa_colunas[col] = 'Data'
-        elif 'HORA' in c_up and 'TEMP' not in c_up and 'VENTO' not in c_up and 'PRECIP' not in c_up and 'PRESSAO' not in c_up and 'UMIDADE' not in c_up:
+        elif 'HORA' in c_up and 'TEMP' not in c_up and 'VENTO' not in c_up and 'PRECIP' not in c_up and 'PRESS' not in c_up and 'UMID' not in c_up and 'ORVALHO' not in c_up and 'RADIAC' not in c_up:
             mapa_colunas[col] = 'Hora_UTC'
-        elif 'PRECIPITACAO' in c_up:
+        elif 'PRECIPITA' in c_up:
             mapa_colunas[col] = 'Precipitacao_mm'
-        elif 'PRESSAO ATMOSFERICA' in c_up:
+        elif ('PRESSAO ATMOSFERICA AO NIVEL' in c_up or 'PRESSÃO ATMOSFÉRICA AO NÍVEL' in c_up) and 'MAX' not in c_up and 'MIN' not in c_up:
             mapa_colunas[col] = 'Pressao_Atmosferica'
-        elif 'RADIACAO' in c_up:
+        elif 'RADIACAO' in c_up or 'RADIAÇÃO' in c_up:
             mapa_colunas[col] = 'Radiacao_Global'
-        elif 'TEMPERATURA DO AR' in c_up:
+        elif 'TEMPERATURA DO AR' in c_up and ('BULBO SECO' in c_up or 'HORARIA' in c_up):
             mapa_colunas[col] = 'Temperatura_Ar'
-        elif 'PONTO DE ORVALHO' in c_up:
+        elif 'PONTO DE ORVALHO' in c_up and 'MAX' not in c_up and 'MIN' not in c_up:
             mapa_colunas[col] = 'Ponto_Orvalho'
-        elif 'TEMPERATURA MAXIMA' in c_up:
+        elif 'TEMPERATURA MAXIMA' in c_up or 'TEMPERATURA MÁXIMA' in c_up:
             mapa_colunas[col] = 'Temp_Maxima_Hora'
-        elif 'TEMPERATURA MINIMA' in c_up:
+        elif 'TEMPERATURA MINIMA' in c_up or 'TEMPERATURA MÍNIMA' in c_up:
             mapa_colunas[col] = 'Temp_Minima_Hora'
-        elif 'UMIDADE RELATIVA' in c_up:
+        elif ('UMIDADE RELATIVA DO AR' in c_up) and 'MAX' not in c_up and 'MIN' not in c_up:
             mapa_colunas[col] = 'Umidade_Relativa'
-        elif 'DIRECAO' in c_up:
+        elif 'DIRECAO' in c_up or 'DIREÇÃO' in c_up:
             mapa_colunas[col] = 'Direcao_Vento'
         elif 'RAJADA' in c_up:
             mapa_colunas[col] = 'Rajada_Vento'
@@ -62,8 +67,9 @@ def carregar_base_completa_inmet():
             mapa_colunas[col] = 'Velocidade_Vento'
 
     df = df_raw.rename(columns=mapa_colunas).copy()
+    df = df.loc[:, ~df.columns.duplicated()].copy()
     df['Data'] = pd.to_datetime(df['Data'], errors='coerce')
-    df['Hora_Dia'] = df['Hora_UTC'].astype(str).str.extract(r'(\d{2})')[0].astype(int)
+    df['Hora_Dia'] = df['Hora_UTC'].astype(str).str.extract(r'(\d{2})')[0].fillna('0').astype(int)
 
     colunas_numericas = [
         'Precipitacao_mm', 'Pressao_Atmosferica', 'Radiacao_Global',
@@ -74,10 +80,22 @@ def carregar_base_completa_inmet():
     for col in colunas_numericas:
         if col in df.columns:
             df[col] = pd.to_numeric(df[col].astype(str).str.replace(',', '.'), errors='coerce')
+            df.loc[df[col] <= -100, col] = np.nan
+
+    df['Radiacao_Global'] = df['Radiacao_Global'].fillna(0.0).clip(lower=0.0)
+    df['Precipitacao_mm'] = df['Precipitacao_mm'].fillna(0.0).clip(lower=0.0)
 
     df = df.dropna(subset=['Data', 'Cidade', 'Temperatura_Ar']).copy()
-    df = df[df['Temperatura_Ar'] > -100].sort_values(['Cidade', 'Data', 'Hora_Dia']).reset_index(drop=True)
-    return df
+    df = df.sort_values(['Cidade', 'Data', 'Hora_Dia']).reset_index(drop=True)
+
+    colunas_finais = [
+        'Data', 'Hora_UTC', 'Precipitacao_mm', 'Pressao_Atmosferica', 'Radiacao_Global',
+        'Temperatura_Ar', 'Ponto_Orvalho', 'Temp_Maxima_Hora', 'Temp_Minima_Hora',
+        'Umidade_Relativa', 'Direcao_Vento', 'Rajada_Vento', 'Velocidade_Vento',
+        'Cidade', 'Codigo_WMO', 'Hora_Dia'
+    ]
+    colunas_existentes = [c for c in colunas_finais if c in df.columns]
+    return df[colunas_existentes].copy()
 
 
 def construir_esquema_estrela_inmet(df):
@@ -119,8 +137,9 @@ def construir_esquema_estrela_inmet(df):
     fato_horaria['Amplitude_Horaria'] = (fato_horaria['Temp_Maxima_Hora'] - fato_horaria['Temp_Minima_Hora']).round(2)
 
     t = fato_horaria['Temperatura_Ar']
-    u = fato_horaria['Umidade_Relativa']
-    sensacao = t + 0.33 * ((u / 100.0) * 6.105 * np.exp((17.27 * t) / (237.7 + t))) - 0.70 * fato_horaria['Velocidade_Vento'] - 4.00
+    u = fato_horaria['Umidade_Relativa'].fillna(fato_horaria.groupby('Cidade')['Umidade_Relativa'].transform('median'))
+    v = fato_horaria['Velocidade_Vento'].fillna(0.0)
+    sensacao = t + 0.33 * ((u / 100.0) * 6.105 * np.exp((17.27 * t) / (237.7 + t))) - 0.70 * v - 4.00
     fato_horaria['Sensacao_Termica'] = sensacao.round(2)
 
     fato_horaria['Media_Movel_24h'] = (
@@ -152,17 +171,23 @@ def construir_esquema_estrela_inmet(df):
 
     fato_horaria['Temp_Prevista_Regressao'] = np.nan
     for cidade in fato_horaria['Cidade'].unique():
-        mask = fato_horaria['Cidade'] == cidade
+        mask = (
+            (fato_horaria['Cidade'] == cidade) &
+            fato_horaria['Umidade_Relativa'].notna() &
+            fato_horaria['Radiacao_Global'].notna() &
+            fato_horaria['Pressao_Atmosferica'].notna()
+        )
         sub = fato_horaria.loc[mask]
-        X = np.column_stack([
-            np.ones(len(sub)),
-            sub['Umidade_Relativa'].to_numpy(),
-            sub['Radiacao_Global'].to_numpy(),
-            sub['Pressao_Atmosferica'].to_numpy()
-        ])
-        y = sub['Temperatura_Ar'].to_numpy()
-        betas, _, _, _ = np.linalg.lstsq(X, y, rcond=None)
-        fato_horaria.loc[mask, 'Temp_Prevista_Regressao'] = np.round(X @ betas, 2)
+        if len(sub) > 10:
+            X = np.column_stack([
+                np.ones(len(sub)),
+                sub['Umidade_Relativa'].to_numpy(),
+                sub['Radiacao_Global'].to_numpy(),
+                sub['Pressao_Atmosferica'].to_numpy()
+            ])
+            y = sub['Temperatura_Ar'].to_numpy()
+            betas, _, _, _ = np.linalg.lstsq(X, y, rcond=None)
+            fato_horaria.loc[mask, 'Temp_Prevista_Regressao'] = np.round(X @ betas, 2)
 
     fato_horaria['Erro_Regressao'] = (fato_horaria['Temperatura_Ar'] - fato_horaria['Temp_Prevista_Regressao']).round(2)
 
@@ -214,7 +239,11 @@ def calcular_estatisticas_multivariadas_inmet(fato_horaria):
     for cidade in fato_horaria['Cidade'].unique():
         sub = fato_horaria[fato_horaria['Cidade'] == cidade]
         for col, nome_var in variaveis:
+            if col not in sub.columns:
+                continue
             serie = sub[col].dropna()
+            if serie.empty:
+                continue
             media = serie.mean()
             linhas.append({
                 'Cidade': cidade,
@@ -242,25 +271,29 @@ def calcular_estatisticas_multivariadas_inmet(fato_horaria):
     return df_est, df_corr
 
 
-def gerar_relatorio_01_perfil_termico(fato_horaria):
+def gerar_relatorio_01_perfil_termico(fato_horaria, fato_diaria):
     sns.set_theme(style='whitegrid')
     fig, axes = plt.subplots(2, 2, figsize=(16, 10))
-    fig.suptitle('Relatorio 1 (INMET Power BI): Perfil Termico, Turnos e Conforto - Timoteo vs Belo Horizonte', fontsize=15, fontweight='bold')
+    fig.suptitle('Relatorio 1 (INMET 2022-2026): Perfil Termico, Turnos e Conforto - Timoteo vs Belo Horizonte', fontsize=15, fontweight='bold')
 
     paleta = {'Timóteo': '#E63946', 'Belo Horizonte': '#1D3557'}
 
+    fato_diaria['Media_Movel_30D'] = (
+        fato_diaria.groupby('Cidade')['Temp_Media_Dia']
+        .transform(lambda s: s.rolling(30, min_periods=1).mean())
+    )
     sns.lineplot(
-        data=fato_horaria,
-        x='Indice_Hora',
-        y='Media_Movel_24h',
+        data=fato_diaria,
+        x='Data',
+        y='Media_Movel_30D',
         hue='Cidade',
         palette=paleta,
         linewidth=2,
         ax=axes[0, 0]
     )
-    axes[0, 0].set_title('Tendencia da Temperatura: Media Movel de 24 Horas (°C)')
-    axes[0, 0].set_xlabel('Horas Acumuladas no Periodo')
-    axes[0, 0].set_ylabel('Temperatura Media 24h (°C)')
+    axes[0, 0].set_title('Evolucao Historica (2022-2026): Media Movel de 30 Dias (°C)')
+    axes[0, 0].set_xlabel('Data')
+    axes[0, 0].set_ylabel('Temperatura Media 30d (°C)')
 
     perfil_horario = fato_horaria.groupby(['Cidade', 'Hora_Dia'], as_index=False)['Temperatura_Ar'].mean()
     sns.lineplot(
@@ -303,7 +336,7 @@ def gerar_relatorio_01_perfil_termico(fato_horaria):
         palette=paleta,
         ax=axes[1, 1]
     )
-    axes[1, 1].set_title('Quantidade de Horas por Faixa de Conforto Termico')
+    axes[1, 1].set_title('Quantidade de Horas por Faixa de Conforto Termico (2022-2026)')
     axes[1, 1].set_xlabel('Faixa de Conforto')
     axes[1, 1].set_ylabel('Horas Registradas')
 
@@ -315,7 +348,7 @@ def gerar_relatorio_01_perfil_termico(fato_horaria):
 def gerar_relatorio_02_correlacao_regressao(fato_horaria):
     sns.set_theme(style='whitegrid')
     fig, axes = plt.subplots(2, 2, figsize=(16, 11))
-    fig.suptitle('Relatorio 2 (INMET Power BI): Correlacao Meteorologica, Regressao e Sensacao Termica', fontsize=15, fontweight='bold')
+    fig.suptitle('Relatorio 2 (INMET 2022-2026): Correlacao Meteorologica, Regressao e Radiacao Solar', fontsize=15, fontweight='bold')
 
     paleta = {'Timóteo': '#E63946', 'Belo Horizonte': '#1D3557'}
 
@@ -333,18 +366,21 @@ def gerar_relatorio_02_correlacao_regressao(fato_horaria):
     )
     axes[0, 0].set_title('Matriz de Correlacao de Pearson das Variaveis do INMET')
 
-    amostra = fato_horaria.sample(n=min(800, len(fato_horaria)), random_state=42)
+    amostra = fato_horaria.dropna(subset=['Umidade_Relativa', 'Temperatura_Ar', 'Temp_Prevista_Regressao']).sample(
+        n=min(1500, len(fato_horaria.dropna(subset=['Umidade_Relativa', 'Temperatura_Ar', 'Temp_Prevista_Regressao']))),
+        random_state=42
+    )
     sns.scatterplot(
         data=amostra,
         x='Umidade_Relativa',
         y='Temperatura_Ar',
         hue='Cidade',
         palette=paleta,
-        alpha=0.5,
+        alpha=0.45,
         ax=axes[0, 1]
     )
     for cidade, cor in paleta.items():
-        sub = fato_horaria[fato_horaria['Cidade'] == cidade]
+        sub = amostra[amostra['Cidade'] == cidade]
         sns.regplot(
             data=sub,
             x='Umidade_Relativa',
@@ -363,11 +399,11 @@ def gerar_relatorio_02_correlacao_regressao(fato_horaria):
         y='Temp_Prevista_Regressao',
         hue='Cidade',
         palette=paleta,
-        alpha=0.5,
+        alpha=0.45,
         ax=axes[1, 0]
     )
-    lim_min = fato_horaria['Temperatura_Ar'].min()
-    lim_max = fato_horaria['Temperatura_Ar'].max()
+    lim_min = amostra['Temperatura_Ar'].min()
+    lim_max = amostra['Temperatura_Ar'].max()
     axes[1, 0].plot([lim_min, lim_max], [lim_min, lim_max], 'k--', linewidth=2, label='Ideal (Real = Previsto)')
     axes[1, 0].set_title('Modelo Preditivo Multiplo: Temperatura Real vs Prevista')
     axes[1, 0].set_xlabel('Temperatura Real (°C)')
@@ -376,15 +412,15 @@ def gerar_relatorio_02_correlacao_regressao(fato_horaria):
 
     rad_horaria = fato_horaria.groupby(['Cidade', 'Hora_Dia'], as_index=False)['Radiacao_Global'].mean()
     sns.barplot(
-        data=rad_horaria[rad_horaria['Hora_Dia'].between(6, 18)],
+        data=rad_horaria[rad_horaria['Hora_Dia'].between(9, 21)],
         x='Hora_Dia',
         y='Radiacao_Global',
         hue='Cidade',
         palette=paleta,
         ax=axes[1, 1]
     )
-    axes[1, 1].set_title('Radiacao Solar Global Media por Hora Diurna (Kj/m2)')
-    axes[1, 1].set_xlabel('Hora do Dia (UTC)')
+    axes[1, 1].set_title('Radiacao Solar Global Media por Hora (Kj/m2)')
+    axes[1, 1].set_xlabel('Hora (UTC)')
     axes[1, 1].set_ylabel('Radiacao Media (Kj/m2)')
 
     plt.tight_layout(rect=[0, 0.02, 1, 0.95])
@@ -395,38 +431,38 @@ def gerar_relatorio_02_correlacao_regressao(fato_horaria):
 def gerar_relatorio_03_chuva_pressao_extremos(fato_horaria, fato_diaria):
     sns.set_theme(style='whitegrid')
     fig, axes = plt.subplots(2, 2, figsize=(16, 10))
-    fig.suptitle('Relatorio 3 (INMET Power BI): Precipitacao, Pressao Atmosferica, Ventos e Anomalias', fontsize=15, fontweight='bold')
+    fig.suptitle('Relatorio 3 (INMET 2022-2026): Precipitacao Anual, Pressao Atmosferica, Ventos e Anomalias', fontsize=15, fontweight='bold')
 
     paleta = {'Timóteo': '#E63946', 'Belo Horizonte': '#1D3557'}
 
-    fato_diaria['Mes'] = fato_diaria['Data'].dt.strftime('%Y-%m')
-    chuva_mensal = fato_diaria.groupby(['Cidade', 'Mes'], as_index=False)['Chuva_Total_Dia_mm'].sum()
+    fato_diaria['Ano'] = fato_diaria['Data'].dt.year
+    chuva_anual = fato_diaria.groupby(['Cidade', 'Ano'], as_index=False)['Chuva_Total_Dia_mm'].sum()
     sns.barplot(
-        data=chuva_mensal,
-        x='Mes',
+        data=chuva_anual,
+        x='Ano',
         y='Chuva_Total_Dia_mm',
         hue='Cidade',
         palette=paleta,
         ax=axes[0, 0]
     )
-    axes[0, 0].set_title('Precipitacao Acumulada Mensal por Cidade (mm)')
-    axes[0, 0].set_xlabel('Ano-Mes')
+    axes[0, 0].set_title('Precipitacao Acumulada por Ano e Cidade (mm)')
+    axes[0, 0].set_xlabel('Ano')
     axes[0, 0].set_ylabel('Chuva Acumulada (mm)')
 
     sns.kdeplot(
-        data=fato_horaria,
+        data=fato_horaria.dropna(subset=['Pressao_Atmosferica']),
         x='Pressao_Atmosferica',
         hue='Cidade',
         fill=True,
         palette=paleta,
         ax=axes[0, 1]
     )
-    axes[0, 1].set_title('Distribuicao da Pressao Atmosferica (Impacto da Altitude: 300m vs 915m)')
-    axes[0, 1].set_xlabel('Pressao Atmosferica ao Nivel da Estacao (mB)')
+    axes[0, 1].set_title('Distribuicao da Pressao Atmosferica ao Nivel da Estacao (mB)')
+    axes[0, 1].set_xlabel('Pressao Atmosferica (mB)')
     axes[0, 1].set_ylabel('Densidade')
 
     sns.boxplot(
-        data=fato_horaria,
+        data=fato_horaria.dropna(subset=['Rajada_Vento']),
         x='Cidade',
         y='Rajada_Vento',
         hue='Classificacao_Chuva',
@@ -437,29 +473,33 @@ def gerar_relatorio_03_chuva_pressao_extremos(fato_horaria, fato_diaria):
     axes[1, 0].set_xlabel('Cidade')
     axes[1, 0].set_ylabel('Rajada de Vento (m/s)')
 
-    anomalias = fato_horaria[fato_horaria['Anomalia_Termica'] == 'Anomalia']
+    amostra_base = fato_horaria.sample(n=min(4000, len(fato_horaria)), random_state=42)
+    anomalias = fato_horaria[fato_horaria['Anomalia_Termica'] == 'Anomalia'].sample(
+        n=min(600, len(fato_horaria[fato_horaria['Anomalia_Termica'] == 'Anomalia'])),
+        random_state=42
+    )
     sns.scatterplot(
-        data=fato_horaria,
-        x='Indice_Hora',
+        data=amostra_base,
+        x='Data',
         y='Temperatura_Ar',
         hue='Cidade',
         palette=paleta,
         alpha=0.2,
-        s=18,
+        s=15,
         ax=axes[1, 1]
     )
     sns.scatterplot(
         data=anomalias,
-        x='Indice_Hora',
+        x='Data',
         y='Temperatura_Ar',
         color='#FFB703',
         edgecolor='black',
-        s=60,
+        s=45,
         label='Anomalia (|Z| > 2)',
         ax=axes[1, 1]
     )
-    axes[1, 1].set_title('Deteccao de Anomalias Termicas no INMET (|Z-Score| > 2)')
-    axes[1, 1].set_xlabel('Horas Acumuladas')
+    axes[1, 1].set_title('Deteccao de Anomalias Termicas no INMET 2022-2026 (|Z-Score| > 2)')
+    axes[1, 1].set_xlabel('Data')
     axes[1, 1].set_ylabel('Temperatura do Ar (°C)')
 
     plt.tight_layout(rect=[0, 0.02, 1, 0.95])
@@ -473,16 +513,15 @@ estatisticas_multivariadas, matriz_correlacao = calcular_estatisticas_multivaria
 
 
 def main():
-    gerar_relatorio_01_perfil_termico(fato_inmet_horaria)
+    gerar_relatorio_01_perfil_termico(fato_inmet_horaria, fato_inmet_diaria)
     gerar_relatorio_02_correlacao_regressao(fato_inmet_horaria)
     gerar_relatorio_03_chuva_pressao_extremos(fato_inmet_horaria, fato_inmet_diaria)
 
-    print('=== ESTATISTICAS MULTIVARIADAS DO INMET (TIMOTEO E BELO HORIZONTE) ===')
+    print('=== ESTATISTICAS MULTIVARIADAS DO INMET (2022-2026) ===')
     print(estatisticas_multivariadas.to_string(index=False))
-    print('\n=== MATRIZ DE CORRELACAO METEOROLOGICA DO INMET ===')
+    print('\n=== MATRIZ DE CORRELACAO METEOROLOGICA DO INMET (2022-2026) ===')
     print(matriz_correlacao.to_string(index=False))
 
 
 if __name__ == '__main__':
     main()
-

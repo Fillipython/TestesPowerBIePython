@@ -1,72 +1,82 @@
 # TestesPowerBIePython
 
-Projeto de processamento, analise estatistica e visualizacao de dados meteorologicos do INMET (Instituto Nacional de Meteorologia) utilizando Python com integracao direta ao Power BI.
+Projeto de processamento, modelagem dimensional (Star Schema), analise estatistica multivariada, regressao linear e visualizacao de dados meteorologicos do INMET (Instituto Nacional de Meteorologia) utilizando Python com integracao direta ao Power BI.
 
 ## Objetivo
 
-Consolidar arquivos historicos de temperatura horaria das cidades de Timoteo e Belo Horizonte, realizar a limpeza e padronizacao dos dados, calcular metricas estatisticas descritivas e disponibilizar os resultados para consumo e construcao de dashboards no Power BI.
+Consolidar todas as variaveis meteorologicas horarias das estacoes do INMET de Timoteo (A511) e Belo Horizonte (A521), realizar a limpeza e padronizacao dos dados, construir um Esquema Estrela completo para o Power BI, calcular estatisticas descritivas e modelos de regressao/correlacao, e gerar paineis analiticos de referencia.
+
+## Variaveis do INMET Analisadas
+
+- Temperatura do Ar - Bulbo Seco Horaria (°C)
+- Temperatura Maxima e Minima na Hora Anterior (°C)
+- Temperatura do Ponto de Orvalho (°C)
+- Sensacao Termica Calculada (°C)
+- Umidade Relativa do Ar Horaria (%)
+- Pressao Atmosferica ao Nivel da Estacao (mB)
+- Radiacao Global (Kj/m2)
+- Precipitacao Total Horaria (mm)
+- Velocidade e Rajada Maxima do Vento (m/s) e Direcao (graus)
 
 ## Estrutura do Projeto
 
-- `main.py`: Script principal que realiza a leitura dos arquivos CSV no padrao INMET, limpeza dos dados, calculo das estatisticas descritivas, exportacao de tabelas tratadas para o Power BI e geracao de um painel grafico estatico.
-- `visual_powerbi.py`: Script configurado para uso direto no componente Visual do Python dentro do Power BI Desktop.
-- `dados_temperatura_powerbi.csv`: Base de dados tratada contendo data, cidade e temperatura horaria.
-- `resumo_estatistico_powerbi.csv`: Tabela consolidada com as metricas estatisticas de cada cidade.
-- `dashboard_powerbi.png`: Painel visual gerado pelo script principal contendo boxplot, histograma com curva de densidade, comparativo de metricas e tabela resumo.
-
-## Metricas Calculadas
-
-Para cada cidade analisada, o projeto calcula:
-
-- Numero de amostras (N)
-- Temperatura minima e maxima
-- Media, mediana e moda
-- Amplitude termica
-- Variancia e desvio padrao
-- Coeficiente de variacao (CV %)
+- `main.py`: Script de leitura dos arquivos CSV no padrao INMET, limpeza dos dados, calculo das estatisticas de temperatura e geracao do painel inicial (`dashboard_powerbi.png`).
+- `modelos_powerbi.py`: Script de modelagem dimensional e analitica do INMET que gera o Esquema Estrela (`dim_calendario`, `dim_estacoes_inmet`, `dim_horario_turno`, `fato_inmet_horaria`, `fato_inmet_diaria`), a tabela de estatisticas multivariadas, a matriz de correlacao, o modelo de regressao linear e os tres relatorios visuais na pasta `relatorios/`.
+- `visual_powerbi.py`: Script para uso direto no componente Visual do Python dentro do Power BI Desktop.
+- `RELATORIO_APRENDIZADO_POWERBI.md`: Guia didatico e relatorio analitico detalhando todos os resultados das estacoes do INMET e as formulas DAX equivalentes para uso no Power BI.
+- `modelo_powerbi/`: Pasta contendo as tabelas Fato e Dimensao do INMET prontas para importacao no Power BI Desktop.
+- `relatorios/`: Pasta com os tres dashboards meteorologicos gerados a partir dos dados do INMET.
 
 ## Pre-requisitos
-
-Certifique-se de ter o Python instalado juntamente com as bibliotecas abaixo:
 
 ```bash
 pip install pandas numpy matplotlib seaborn
 ```
 
-## Como Executar o Projeto Localmente
+## Como Executar
 
-No terminal, dentro do diretorio do projeto, execute:
+Para rodar o resumo estatistico de temperatura e gerar o dashboard inicial:
 
 ```bash
 python main.py
 ```
 
-A execucao exibira o resumo estatistico no terminal e atualizara os arquivos CSV e a imagem do dashboard na pasta do projeto.
+Para construir o Esquema Estrela completo do INMET, os modelos de correlacao/regressao e os tres relatorios analiticos:
+
+```bash
+python modelos_powerbi.py
+```
 
 ## Como Integrar com o Power BI
 
-### 1. Importacao via Arquivos CSV Tratados
+### 1. Importando o Esquema Estrela do INMET (`modelo_powerbi/`)
 
 1. Abra o Power BI Desktop.
 2. Acesse Obter dados e selecione Texto/CSV.
-3. Importe os arquivos `dados_temperatura_powerbi.csv` e `resumo_estatistico_powerbi.csv`.
+3. Importe as tabelas da pasta `modelo_powerbi/`:
+   - `dim_calendario.csv`
+   - `dim_estacoes_inmet.csv`
+   - `dim_horario_turno.csv`
+   - `fato_inmet_horaria.csv`
+   - `fato_inmet_diaria.csv`
+   - `estatisticas_multivariadas_inmet.csv`
+   - `matriz_correlacao_inmet.csv`
+4. Na guia Exibicao de Modelo do Power BI, relacione `dim_calendario[Data]`, `dim_estacoes_inmet[Codigo_WMO]` e `dim_horario_turno[Hora_Dia]` com a tabela `fato_inmet_horaria`.
 
 ### 2. Importacao Direta via Script do Python
 
-1. No Power BI Desktop, acesse Obter dados, clique em Mais e selecione Script do Python.
-2. Insira o script abaixo para carregar os DataFrames processados pelo projeto:
+No Power BI Desktop, acesse Obter dados -> Mais -> Script do Python e utilize:
 
 ```python
 import sys
 sys.path.append(r'e:\filli\OneDrive\Documentos\PowerBI e Python')
-from main import df_dados, df_estatisticas
+from modelos_powerbi import (
+    dim_calendario,
+    dim_estacoes,
+    dim_horario_turno,
+    fato_inmet_horaria,
+    fato_inmet_diaria,
+    estatisticas_multivariadas,
+    matriz_correlacao
+)
 ```
-
-3. Selecione as tabelas `df_dados` e `df_estatisticas` na janela de navegacao e clique em Carregar.
-
-### 3. Utilizacao do Visual do Python no Relatorio
-
-1. Adicione o elemento Visual do Python (`Py`) ao relatorio do Power BI.
-2. Arraste os campos `Cidade` e `Temperatura` da tabela `df_dados` para a area de valores do visual.
-3. Cole o conteudo do arquivo `visual_powerbi.py` no editor de script do visual e execute.
-

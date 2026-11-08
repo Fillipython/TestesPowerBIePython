@@ -13,46 +13,88 @@ PASTA_PADRAO = r'e:\filli\OneDrive\Documentos\PowerBI e Python'
 BASE_DIR = PASTA_PADRAO if os.path.exists(PASTA_PADRAO) else (os.path.dirname(os.path.abspath(__file__)) if '__file__' in globals() else os.getcwd())
 
 
-def gerar_arquivos_exemplo_se_necessario():
+def gerar_arquivos_inmet_completos(forcar=False):
     padrao_timoteo = os.path.join(BASE_DIR, '*TIMOTEO*.CSV')
     padrao_bh = os.path.join(BASE_DIR, '*BELO HORIZONTE*.CSV')
 
-    if glob.glob(padrao_timoteo) and glob.glob(padrao_bh):
-        return
+    if not forcar and glob.glob(padrao_timoteo) and glob.glob(padrao_bh):
+        arq_teste = glob.glob(padrao_timoteo)[0]
+        df_teste = pd.read_csv(arq_teste, sep=DELIMITER, encoding=ENCODING, skiprows=HEADER_LINES, decimal=DECIMAL, nrows=5)
+        if len(df_teste.columns) >= 10:
+            return
 
     rng = np.random.default_rng(42)
-    datas = pd.date_range('2025-01-01', periods=720, freq='h')
+    datas = pd.date_range('2025-01-01', periods=2160, freq='h')
+    n = len(datas)
+    horas = datas.hour.to_numpy()
+    dias_ano = datas.dayofyear.to_numpy()
 
     cidades_config = [
-        ('TIMOTEO', 'A511', 26.5, 4.2),
-        ('BELO HORIZONTE', 'A521', 23.0, 3.5)
+        ('TIMOTEO', 'A511', '-19,53', '-42,64', '300,0', 26.4, 3.8, 1008.5, 68.0),
+        ('BELO HORIZONTE', 'A521', '-19,93', '-43,95', '915,0', 22.8, 3.2, 912.0, 64.0)
     ]
 
-    for nome_arq, codigo, media, desvio in cidades_config:
+    for nome_arq, codigo, lat, lon, alt, temp_base, amp_diaria, pressao_base, umid_base in cidades_config:
         caminho = os.path.join(BASE_DIR, f'INMET_SE_MG_{codigo}_{nome_arq}_2025.CSV')
-        temperaturas = rng.normal(loc=media, scale=desvio, size=len(datas)).round(1)
+
+        ciclo_diario = -np.cos((horas - 3) * 2 * np.pi / 24) * amp_diaria
+        ciclo_sazonal = -np.sin((dias_ano - 15) * 2 * np.pi / 90) * 1.8
+        ruido_temp = rng.normal(0, 1.2, n)
+        temp_ar = np.round(temp_base + ciclo_diario + ciclo_sazonal + ruido_temp, 1)
+
+        temp_max = np.round(temp_ar + rng.uniform(0.3, 1.6, n), 1)
+        temp_min = np.round(temp_ar - rng.uniform(0.3, 1.5, n), 1)
+
+        umid = np.clip(np.round(umid_base - (temp_ar - temp_base) * 3.1 + rng.normal(0, 5.5, n), 0), 22, 99)
+        ponto_orvalho = np.round(temp_ar - ((100 - umid) / 5.0), 1)
+
+        fator_solar = np.clip(np.sin((horas - 6) * np.pi / 12), 0, None)
+        nebulosidade = np.clip((umid - 40) / 80.0, 0, 0.75)
+        radiacao = np.round(fator_solar * 3200 * (1 - nebulosidade * 0.5) + rng.uniform(0, 45, n) * (fator_solar > 0), 1)
+
+        prob_chuva = np.where(umid > 82, 0.35, np.where(umid > 72, 0.08, 0.01))
+        choveu = rng.random(n) < prob_chuva
+        precipitacao = np.where(choveu, np.round(rng.exponential(4.2, n), 1), 0.0)
+
+        pressao = np.round(pressao_base - (temp_ar - temp_base) * 0.35 - (precipitacao > 0) * 2.4 + rng.normal(0, 0.8, n), 1)
+        vento_vel = np.clip(np.round(1.8 + 0.08 * np.abs(temp_ar - temp_base) + (precipitacao > 0) * 1.5 + rng.exponential(0.7, n), 1), 0.1, 14.0)
+        vento_rajada = np.round(vento_vel + rng.uniform(1.2, 4.8, n), 1)
+        vento_dir = np.round(rng.uniform(45, 315, n), 0).astype(int)
 
         cabecalho = [
             f'REGIAO:;SE',
             f'UF:;MG',
             f'ESTACAO:;{nome_arq}',
             f'CODIGO (WMO):;{codigo}',
-            f'LATITUDE:;-19,5',
-            f'LONGITUDE:;-42,6',
-            f'ALTITUDE:;300,0',
+            f'LATITUDE:;{lat}',
+            f'LONGITUDE:;{lon}',
+            f'ALTITUDE:;{alt}',
             f'DATA DE FUNDACAO:;01/01/2010'
         ]
 
-        df_exemplo = pd.DataFrame({
+        def fmt_dec(arr):
+            return [str(v).replace('.', ',') for v in arr]
+
+        df_inmet = pd.DataFrame({
             'Data': datas.strftime('%Y/%m/%d'),
             'Hora UTC': datas.strftime('%H%M UTC'),
-            'TEMPERATURA DO AR - BULBO SECO, HORARIA (°C)': [str(t).replace('.', ',') for t in temperaturas]
+            'PRECIPITACAO TOTAL, HORARIO (mm)': fmt_dec(precipitacao),
+            'PRESSAO ATMOSFERICA AO NIVEL DA ESTACAO, HORARIA (mB)': fmt_dec(pressao),
+            'RADIACAO GLOBAL (Kj/m²)': fmt_dec(radiacao),
+            'TEMPERATURA DO AR - BULBO SECO, HORARIA (°C)': fmt_dec(temp_ar),
+            'TEMPERATURA DO PONTO DE ORVALHO (°C)': fmt_dec(ponto_orvalho),
+            'TEMPERATURA MAXIMA NA HORA ANT. (AUT) (°C)': fmt_dec(temp_max),
+            'TEMPERATURA MINIMA NA HORA ANT. (AUT) (°C)': fmt_dec(temp_min),
+            'UMIDADE RELATIVA DO AR, HORARIA (%)': fmt_dec(umid),
+            'VENTO, DIRECAO HORARIA (gr) (° (gr))': vento_dir,
+            'VENTO, RAJADA MAXIMA (m/s)': fmt_dec(vento_rajada),
+            'VENTO, VELOCIDADE HORARIA (m/s)': fmt_dec(vento_vel)
         })
 
         with open(caminho, 'w', encoding=ENCODING, newline='') as f:
             for linha in cabecalho:
                 f.write(linha + '\n')
-            df_exemplo.to_csv(f, sep=DELIMITER, index=False)
+            df_inmet.to_csv(f, sep=DELIMITER, index=False)
 
 
 def carregar_dados_cidade(cidade_nome, padrao_arquivo):
@@ -79,7 +121,7 @@ def carregar_dados_cidade(cidade_nome, padrao_arquivo):
 
 
 def preparar_dados():
-    gerar_arquivos_exemplo_se_necessario()
+    gerar_arquivos_inmet_completos()
     padrao_timoteo = '*TIMOTEO*.CSV'
     padrao_bh = '*BELO HORIZONTE*.CSV'
 

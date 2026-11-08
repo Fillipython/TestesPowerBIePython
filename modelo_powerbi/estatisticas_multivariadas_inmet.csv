@@ -1,0 +1,23 @@
+﻿Cidade;Variavel;N_Amostras;Minimo;Maximo;Media;Mediana;Moda;Amplitude;Variancia;Desvio_Padrao;CV_Pct
+Belo Horizonte;Temperatura do Ar (°C);2160;15,3;31,3;22,84;22,8;22,8;16,0;8,01;2,83;12,39
+Belo Horizonte;Temperatura Maxima Horaria (°C);2160;16,0;32,3;23,8;23,8;23,8;16,3;8,13;2,85;11,98
+Belo Horizonte;Temperatura Minima Horaria (°C);2160;14,6;30,7;21,93;21,9;21,9;16,1;8,11;2,85;12,98
+Belo Horizonte;Sensacao Termica (°C);2160;13,07;31,01;22,71;22,84;23,79;17,94;9,65;3,11;13,68
+Belo Horizonte;Ponto de Orvalho (°C);2160;10,0;20,1;15,63;15,7;15,9;10,1;2,35;1,53;9,8
+Belo Horizonte;Umidade Relativa (%);2160;33,0;93,0;63,96;64,0;68,0;60,0;109,41;10,46;16,35
+Belo Horizonte;Pressao Atmosferica (mB);2160;907,1;916,0;911,87;911,9;912,1;8,9;1,62;1,27;0,14
+Belo Horizonte;Radiacao Global (Kj/m2);2160;0,0;3218,2;907,14;0,05;0,0;3218,2;1242220,39;1114,55;122,86
+Belo Horizonte;Precipitacao Horaria (mm);2160;0,0;22,1;0,19;0,0;0,0;22,1;1,85;1,36;716,57
+Belo Horizonte;Velocidade do Vento (m/s);2160;1,8;8,5;2,74;2,5;2,2;6,7;0,57;0,75;27,51
+Belo Horizonte;Rajada Maxima do Vento (m/s);2160;3,1;10,0;5,74;5,7;6,3;6,9;1,56;1,25;21,77
+Timóteo;Temperatura do Ar (°C);2160;18,4;34,9;26,34;26,3;25,6;16,5;10,25;3,2;12,15
+Timóteo;Temperatura Maxima Horaria (°C);2160;19,3;36,4;27,29;27,2;27,2;17,1;10,34;3,22;11,79
+Timóteo;Temperatura Minima Horaria (°C);2160;17,6;34,1;25,46;25,4;22,5;16,5;10,41;3,23;12,67
+Timóteo;Sensacao Termica (°C);2160;17,8;37,09;27,97;28,22;27,0;19,29;13,45;3,67;13,11
+Timóteo;Ponto de Orvalho (°C);2160;15,0;25,5;19,97;20,0;19,8;10,5;2,61;1,62;8,09
+Timóteo;Umidade Relativa (%);2160;34,0;98,0;68,14;68,0;66,0;64,0;129,4;11,38;16,69
+Timóteo;Pressao Atmosferica (mB);2160;1003,4;1013,0;1008,39;1008,4;1008,1;9,6;1,9;1,38;0,14
+Timóteo;Radiacao Global (Kj/m2);2160;0,0;3157,4;888,32;0,35;0,0;3157,4;1191456,34;1091,54;122,88
+Timóteo;Precipitacao Horaria (mm);2160;0,0;30,5;0,32;0,0;0,0;30,5;3,32;1,82;561,11
+Timóteo;Velocidade do Vento (m/s);2160;1,8;7,6;2,81;2,6;2,2;5,8;0,66;0,81;29,01
+Timóteo;Rajada Maxima do Vento (m/s);2160;3,3;10,7;5,86;5,8;5,4;7,4;1,76;1,33;22,65

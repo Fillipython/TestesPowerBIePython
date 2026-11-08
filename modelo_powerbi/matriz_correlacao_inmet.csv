@@ -1,0 +1,9 @@
+﻿Variavel;Temperatura_Ar;Sensacao_Termica;Ponto_Orvalho;Umidade_Relativa;Pressao_Atmosferica;Radiacao_Global;Precipitacao_mm;Velocidade_Vento
+Temperatura_Ar;1,0;0,972;0,771;-0,641;0,485;0,473;-0,135;-0,058
+Sensacao_Termica;0,972;1,0;0,87;-0,478;0,598;0,409;-0,144;-0,167
+Ponto_Orvalho;0,771;0,87;1,0;-0,005;0,801;0,209;-0,007;0,027
+Umidade_Relativa;-0,641;-0,478;-0,005;1,0;0,204;-0,491;0,204;0,123
+Pressao_Atmosferica;0,485;0,598;0,801;0,204;1,0;-0,019;0,038;0,038
+Radiacao_Global;0,473;0,409;0,209;-0,491;-0,019;1,0;-0,1;-0,027
+Precipitacao_mm;-0,135;-0,144;-0,007;0,204;0,038;-0,1;1,0;0,314
+Velocidade_Vento;-0,058;-0,167;0,027;0,123;0,038;-0,027;0,314;1,0

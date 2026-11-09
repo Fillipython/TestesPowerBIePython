@@ -2,3 +2,5 @@ __pycache__/
 *.pyc
 .pbi/
 *.zip
+*.csv
+modelo_powerbi/*.csv

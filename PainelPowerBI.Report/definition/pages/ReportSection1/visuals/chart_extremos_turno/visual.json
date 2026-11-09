@@ -1,0 +1,72 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "chart_extremos_turno",
+  "position": {
+    "x": 20,
+    "y": 420,
+    "z": 7000,
+    "height": 280,
+    "width": 610
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fato_inmet_horaria"
+                    }
+                  },
+                  "Property": "Faixa_Conforto"
+                }
+              },
+              "queryRef": "fato_inmet_horaria.Faixa_Conforto",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fato_inmet_horaria"
+                    }
+                  },
+                  "Property": "Cidade"
+                }
+              },
+              "queryRef": "fato_inmet_horaria.Cidade"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fato_inmet_horaria"
+                    }
+                  },
+                  "Property": "Amplitude Termica"
+                }
+              },
+              "queryRef": "fato_inmet_horaria.Amplitude Termica"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
+

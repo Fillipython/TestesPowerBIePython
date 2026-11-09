@@ -1,0 +1,71 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "chart_chuva_data",
+  "position": {
+    "x": 20,
+    "y": 135,
+    "z": 4000,
+    "height": 275,
+    "width": 610
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fato_inmet_horaria"
+                    }
+                  },
+                  "Property": "Data"
+                }
+              },
+              "queryRef": "fato_inmet_horaria.Data",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fato_inmet_horaria"
+                    }
+                  },
+                  "Property": "Cidade"
+                }
+              },
+              "queryRef": "fato_inmet_horaria.Cidade"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fato_inmet_horaria"
+                    }
+                  },
+                  "Property": "Chuva Acumulada (mm)"
+                }
+              },
+              "queryRef": "fato_inmet_horaria.Chuva Acumulada (mm)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

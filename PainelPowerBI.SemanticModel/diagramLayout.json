@@ -1,0 +1,100 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 405.9480800620882,
+            "y": 607.90390812655971
+          },
+          "nodeIndex": "dim_calendario",
+          "nodeLineageTag": "e87fae36-4602-447a-92ab-1e85292c728e",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 418.67557565792072,
+            "y": -50
+          },
+          "nodeIndex": "dim_estacoes_inmet",
+          "nodeLineageTag": "488bc20e-f421-46f3-80ef-f4c92bc6a016",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 602.83295620708861
+          },
+          "nodeIndex": "dim_horario_turno",
+          "nodeLineageTag": "8cc4a27d-ce2d-49a8-bfff-0f729971b421",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 652.67557565792072,
+            "y": 302.95195406327986
+          },
+          "nodeIndex": "estatisticas_multivariadas_inmet",
+          "nodeLineageTag": "13656195-2153-4725-9581-84019b92db6a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 936.67557565792072,
+            "y": 302.95195406327986
+          },
+          "nodeIndex": "fato_inmet_diaria",
+          "nodeLineageTag": "d5158216-60c9-475b-ba51-f00a183b2b6a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 208.53296867766915,
+            "y": 251.20941640839681
+          },
+          "nodeIndex": "fato_inmet_horaria",
+          "nodeLineageTag": "4b5ecca9-e221-4276-8127-72022fe97112",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas as tabelas",
+  "defaultDiagram": "Todas as tabelas"
+}

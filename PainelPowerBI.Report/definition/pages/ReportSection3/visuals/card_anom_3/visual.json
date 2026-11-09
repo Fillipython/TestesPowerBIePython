@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "card_anom_3",
+  "position": {
+    "x": 925,
+    "y": 15,
+    "z": 3000,
+    "height": 105,
+    "width": 335
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fato_inmet_horaria"
+                    }
+                  },
+                  "Property": "Horas Anomalia Termica"
+                }
+              },
+              "queryRef": "fato_inmet_horaria.Horas Anomalia Termica"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

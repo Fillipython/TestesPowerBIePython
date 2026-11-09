@@ -1,31 +1,184 @@
 {
-  "name": "SemanticModel",
-  "compatibilityLevel": 1550,
+  "compatibilityLevel": 1606,
   "model": {
+    "annotations": [
+      {
+        "name": "PBI_QueryOrder",
+        "value": "[\"dim_calendario\",\"dim_estacoes_inmet\",\"dim_horario_turno\",\"fato_inmet_horaria\",\"fato_inmet_diaria\",\"estatisticas_multivariadas_inmet\"]"
+      },
+      {
+        "name": "__PBI_TimeIntelligenceEnabled",
+        "value": "1"
+      },
+      {
+        "name": "PBI_ProTooling",
+        "value": "[\"DevMode\"]"
+      }
+    ],
     "culture": "pt-BR",
     "dataAccessOptions": {
       "legacyRedirects": true,
       "returnErrorValuesAsNull": true
     },
     "defaultPowerBIDataSourceVersion": "powerBI_V3",
+    "relationships": [
+      {
+        "name": "rel_calendario_horaria",
+        "fromColumn": "Data",
+        "fromTable": "fato_inmet_horaria",
+        "toColumn": "Data",
+        "toTable": "dim_calendario"
+      },
+      {
+        "name": "rel_estacao_horaria",
+        "fromColumn": "Codigo_WMO",
+        "fromTable": "fato_inmet_horaria",
+        "toColumn": "Codigo_WMO",
+        "toTable": "dim_estacoes_inmet"
+      },
+      {
+        "name": "rel_horario_turno",
+        "fromColumn": "Hora_Dia",
+        "fromTable": "fato_inmet_horaria",
+        "toColumn": "Hora_Dia",
+        "toTable": "dim_horario_turno"
+      },
+      {
+        "name": "5f956e4e-bf91-4901-a7bb-72e30b4ce6d9",
+        "fromColumn": "Data",
+        "fromTable": "dim_calendario",
+        "joinOnDateBehavior": "datePartOnly",
+        "toColumn": "Date",
+        "toTable": "LocalDateTable_b079f629-cd0d-4d94-b236-61574a169e60"
+      },
+      {
+        "name": "f539f2d0-d055-40cc-9863-76a7514d6c33",
+        "fromColumn": "Data",
+        "fromTable": "fato_inmet_diaria",
+        "joinOnDateBehavior": "datePartOnly",
+        "toColumn": "Date",
+        "toTable": "LocalDateTable_954f0d15-d635-41da-a2bd-4bd7e066ecaf"
+      }
+    ],
+    "sourceQueryCulture": "pt-BR",
     "tables": [
       {
         "name": "dim_calendario",
         "columns": [
-          { "name": "Data", "dataType": "dateTime", "sourceColumn": "Data", "formatString": "dd/mm/yyyy" },
-          { "name": "Ano", "dataType": "int64", "sourceColumn": "Ano" },
-          { "name": "Mes_Num", "dataType": "int64", "sourceColumn": "Mes_Num" },
-          { "name": "Mes_Nome", "dataType": "string", "sourceColumn": "Mes_Nome" },
-          { "name": "Dia", "dataType": "int64", "sourceColumn": "Dia" },
-          { "name": "Dia_Semana", "dataType": "string", "sourceColumn": "Dia_Semana" },
-          { "name": "Fim_De_Semana", "dataType": "string", "sourceColumn": "Fim_De_Semana" }
+          {
+            "name": "Data",
+            "annotations": [
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              },
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "dd/mm/yyyy",
+            "lineageTag": "83d95022-3d11-4a02-ae71-cb4b8c6991ef",
+            "sourceColumn": "Data",
+            "summarizeBy": "none",
+            "variations": [
+              {
+                "name": "Variação",
+                "defaultHierarchy": {
+                  "hierarchy": "Hierarquia de datas",
+                  "table": "LocalDateTable_b079f629-cd0d-4d94-b236-61574a169e60"
+                },
+                "isDefault": true,
+                "relationship": "5f956e4e-bf91-4901-a7bb-72e30b4ce6d9"
+              }
+            ]
+          },
+          {
+            "name": "Ano",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "532341dc-26a5-4bea-9d8d-d9aaf7939c2d",
+            "sourceColumn": "Ano",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Mes_Num",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "a138e571-b104-4ae2-be95-bdc73261c62c",
+            "sourceColumn": "Mes_Num",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Mes_Nome",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "aada9e10-2006-4de1-a19b-27c3b43da495",
+            "sourceColumn": "Mes_Nome",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Dia",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "int64",
+            "lineageTag": "30d6bc6e-6dd4-44a9-b738-f2134f2633e0",
+            "sourceColumn": "Dia",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Dia_Semana",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "8df576f0-27bd-4b60-b9ca-67f80274ef81",
+            "sourceColumn": "Dia_Semana",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Fim_De_Semana",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "cec18d55-cb33-4926-8b98-36343bef84e4",
+            "sourceColumn": "Fim_De_Semana",
+            "summarizeBy": "none"
+          }
         ],
+        "lineageTag": "e87fae36-4602-447a-92ab-1e85292c728e",
         "partitions": [
           {
             "name": "dim_calendario",
             "mode": "import",
             "source": {
-              "type": "m",
               "expression": [
                 "let",
                 "    Fonte = Csv.Document(File.Contents(\"e:\\filli\\OneDrive\\Documentos\\PowerBI e Python\\modelo_powerbi\\dim_calendario.csv\"),[Delimiter=\";\", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
@@ -33,7 +186,8 @@
                 "    Tipos = Table.TransformColumnTypes(Cabecalhos,{{\"Data\", type date}, {\"Ano\", Int64.Type}, {\"Mes_Num\", Int64.Type}, {\"Mes_Nome\", type text}, {\"Dia\", Int64.Type}, {\"Dia_Semana\", type text}, {\"Fim_De_Semana\", type text}}, \"pt-BR\")",
                 "in",
                 "    Tipos"
-              ]
+              ],
+              "type": "m"
             }
           }
         ]
@@ -41,20 +195,55 @@
       {
         "name": "dim_estacoes_inmet",
         "columns": [
-          { "name": "Codigo_WMO", "dataType": "string", "sourceColumn": "Codigo_WMO" },
-          { "name": "Cidade", "dataType": "string", "sourceColumn": "Cidade" },
-          { "name": "Regiao", "dataType": "string", "sourceColumn": "Regiao" },
-          { "name": "UF", "dataType": "string", "sourceColumn": "UF" },
-          { "name": "Latitude", "dataType": "double", "sourceColumn": "Latitude" },
-          { "name": "Longitude", "dataType": "double", "sourceColumn": "Longitude" },
-          { "name": "Altitude_m", "dataType": "double", "sourceColumn": "Altitude_m" }
+          {
+            "name": "Codigo_WMO",
+            "dataType": "string",
+            "lineageTag": "8b456b1e-4573-4fea-87ba-96003db8a6e9",
+            "sourceColumn": "Codigo_WMO"
+          },
+          {
+            "name": "Cidade",
+            "dataType": "string",
+            "lineageTag": "297a9c86-61da-4e75-9103-d046b7624521",
+            "sourceColumn": "Cidade"
+          },
+          {
+            "name": "Regiao",
+            "dataType": "string",
+            "lineageTag": "2bfe3d18-db98-4cd2-b83c-6a3ef5b85759",
+            "sourceColumn": "Regiao"
+          },
+          {
+            "name": "UF",
+            "dataType": "string",
+            "lineageTag": "657d35e8-c14e-45c2-a375-c95743a879d2",
+            "sourceColumn": "UF"
+          },
+          {
+            "name": "Latitude",
+            "dataType": "double",
+            "lineageTag": "80226f1b-6313-4834-bdaf-c76ddc343a7c",
+            "sourceColumn": "Latitude"
+          },
+          {
+            "name": "Longitude",
+            "dataType": "double",
+            "lineageTag": "35c11dbd-3490-4334-a438-b32548da2984",
+            "sourceColumn": "Longitude"
+          },
+          {
+            "name": "Altitude_m",
+            "dataType": "double",
+            "lineageTag": "4f300185-59c5-404a-8d11-c76d984fdd04",
+            "sourceColumn": "Altitude_m"
+          }
         ],
+        "lineageTag": "488bc20e-f421-46f3-80ef-f4c92bc6a016",
         "partitions": [
           {
             "name": "dim_estacoes_inmet",
             "mode": "import",
             "source": {
-              "type": "m",
               "expression": [
                 "let",
                 "    Fonte = Csv.Document(File.Contents(\"e:\\filli\\OneDrive\\Documentos\\PowerBI e Python\\modelo_powerbi\\dim_estacoes_inmet.csv\"),[Delimiter=\";\", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
@@ -62,7 +251,8 @@
                 "    Tipos = Table.TransformColumnTypes(Cabecalhos,{{\"Codigo_WMO\", type text}, {\"Cidade\", type text}, {\"Regiao\", type text}, {\"UF\", type text}, {\"Latitude\", type number}, {\"Longitude\", type number}, {\"Altitude_m\", type number}}, \"pt-BR\")",
                 "in",
                 "    Tipos"
-              ]
+              ],
+              "type": "m"
             }
           }
         ]
@@ -70,17 +260,37 @@
       {
         "name": "dim_horario_turno",
         "columns": [
-          { "name": "Hora_Dia", "dataType": "int64", "sourceColumn": "Hora_Dia" },
-          { "name": "Hora_Formatada", "dataType": "string", "sourceColumn": "Hora_Formatada" },
-          { "name": "Turno", "dataType": "string", "sourceColumn": "Turno" },
-          { "name": "Periodo_Solar", "dataType": "string", "sourceColumn": "Periodo_Solar" }
+          {
+            "name": "Hora_Dia",
+            "dataType": "int64",
+            "lineageTag": "2ce19970-e20a-4e41-9966-5530b953fd08",
+            "sourceColumn": "Hora_Dia"
+          },
+          {
+            "name": "Hora_Formatada",
+            "dataType": "string",
+            "lineageTag": "9a607f86-674d-42f1-a25d-5518be8bfc92",
+            "sourceColumn": "Hora_Formatada"
+          },
+          {
+            "name": "Turno",
+            "dataType": "string",
+            "lineageTag": "a2181231-eb68-4742-90ff-387a00cd56d3",
+            "sourceColumn": "Turno"
+          },
+          {
+            "name": "Periodo_Solar",
+            "dataType": "string",
+            "lineageTag": "ecdff83d-38cb-4f7d-8748-e8631ad56460",
+            "sourceColumn": "Periodo_Solar"
+          }
         ],
+        "lineageTag": "8cc4a27d-ce2d-49a8-bfff-0f729971b421",
         "partitions": [
           {
             "name": "dim_horario_turno",
             "mode": "import",
             "source": {
-              "type": "m",
               "expression": [
                 "let",
                 "    Fonte = Csv.Document(File.Contents(\"e:\\filli\\OneDrive\\Documentos\\PowerBI e Python\\modelo_powerbi\\dim_horario_turno.csv\"),[Delimiter=\";\", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
@@ -88,7 +298,8 @@
                 "    Tipos = Table.TransformColumnTypes(Cabecalhos,{{\"Hora_Dia\", Int64.Type}, {\"Hora_Formatada\", type text}, {\"Turno\", type text}, {\"Periodo_Solar\", type text}}, \"pt-BR\")",
                 "in",
                 "    Tipos"
-              ]
+              ],
+              "type": "m"
             }
           }
         ]
@@ -96,80 +307,242 @@
       {
         "name": "fato_inmet_horaria",
         "columns": [
-          { "name": "Data", "dataType": "dateTime", "sourceColumn": "Data", "formatString": "dd/mm/yyyy" },
-          { "name": "Hora_UTC", "dataType": "string", "sourceColumn": "Hora_UTC" },
-          { "name": "Precipitacao_mm", "dataType": "double", "sourceColumn": "Precipitacao_mm" },
-          { "name": "Pressao_Atmosferica", "dataType": "double", "sourceColumn": "Pressao_Atmosferica" },
-          { "name": "Radiacao_Global", "dataType": "double", "sourceColumn": "Radiacao_Global" },
-          { "name": "Temperatura_Ar", "dataType": "double", "sourceColumn": "Temperatura_Ar" },
-          { "name": "Ponto_Orvalho", "dataType": "double", "sourceColumn": "Ponto_Orvalho" },
-          { "name": "Temp_Maxima_Hora", "dataType": "double", "sourceColumn": "Temp_Maxima_Hora" },
-          { "name": "Temp_Minima_Hora", "dataType": "double", "sourceColumn": "Temp_Minima_Hora" },
-          { "name": "Umidade_Relativa", "dataType": "double", "sourceColumn": "Umidade_Relativa" },
-          { "name": "Direcao_Vento", "dataType": "int64", "sourceColumn": "Direcao_Vento" },
-          { "name": "Rajada_Vento", "dataType": "double", "sourceColumn": "Rajada_Vento" },
-          { "name": "Velocidade_Vento", "dataType": "double", "sourceColumn": "Velocidade_Vento" },
-          { "name": "Cidade", "dataType": "string", "sourceColumn": "Cidade" },
-          { "name": "Codigo_WMO", "dataType": "string", "sourceColumn": "Codigo_WMO" },
-          { "name": "Hora_Dia", "dataType": "int64", "sourceColumn": "Hora_Dia" },
-          { "name": "Turno", "dataType": "string", "sourceColumn": "Turno" },
-          { "name": "Periodo_Solar", "dataType": "string", "sourceColumn": "Periodo_Solar" },
-          { "name": "Indice_Hora", "dataType": "int64", "sourceColumn": "Indice_Hora" },
-          { "name": "Amplitude_Horaria", "dataType": "double", "sourceColumn": "Amplitude_Horaria" },
-          { "name": "Sensacao_Termica", "dataType": "double", "sourceColumn": "Sensacao_Termica" },
-          { "name": "Media_Movel_24h", "dataType": "double", "sourceColumn": "Media_Movel_24h" },
-          { "name": "Z_Score_Temp", "dataType": "double", "sourceColumn": "Z_Score_Temp" },
-          { "name": "Anomalia_Termica", "dataType": "string", "sourceColumn": "Anomalia_Termica" },
-          { "name": "Faixa_Conforto", "dataType": "string", "sourceColumn": "Faixa_Conforto" },
-          { "name": "Classificacao_Chuva", "dataType": "string", "sourceColumn": "Classificacao_Chuva" },
-          { "name": "Temp_Prevista_Regressao", "dataType": "double", "sourceColumn": "Temp_Prevista_Regressao" },
-          { "name": "Erro_Regressao", "dataType": "double", "sourceColumn": "Erro_Regressao" }
+          {
+            "name": "Data",
+            "annotations": [
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              },
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "dd/mm/yyyy",
+            "lineageTag": "ed85ea51-4195-4ea6-a149-e12c6d7e73e0",
+            "sourceColumn": "Data",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Hora_UTC",
+            "dataType": "string",
+            "lineageTag": "8b1ab1f7-da81-4f63-96ef-e509aabd48c5",
+            "sourceColumn": "Hora_UTC"
+          },
+          {
+            "name": "Precipitacao_mm",
+            "dataType": "double",
+            "lineageTag": "e7ee5c96-513b-4b59-b411-0372261d9cd4",
+            "sourceColumn": "Precipitacao_mm"
+          },
+          {
+            "name": "Pressao_Atmosferica",
+            "dataType": "double",
+            "lineageTag": "c65696bf-6e30-4213-9d7c-502c5d375079",
+            "sourceColumn": "Pressao_Atmosferica"
+          },
+          {
+            "name": "Radiacao_Global",
+            "dataType": "double",
+            "lineageTag": "f8756379-41ee-4fb0-aec5-fa2757d16085",
+            "sourceColumn": "Radiacao_Global"
+          },
+          {
+            "name": "Temperatura_Ar",
+            "dataType": "double",
+            "lineageTag": "d3b3ebb0-ca80-4d36-9630-405459b3fe14",
+            "sourceColumn": "Temperatura_Ar"
+          },
+          {
+            "name": "Ponto_Orvalho",
+            "dataType": "double",
+            "lineageTag": "a8cf46fa-b108-4de5-9a55-638a1882dc96",
+            "sourceColumn": "Ponto_Orvalho"
+          },
+          {
+            "name": "Temp_Maxima_Hora",
+            "dataType": "double",
+            "lineageTag": "c46b0f7f-aab8-4f29-bdf2-8dd995c6a4a7",
+            "sourceColumn": "Temp_Maxima_Hora"
+          },
+          {
+            "name": "Temp_Minima_Hora",
+            "dataType": "double",
+            "lineageTag": "6df52bad-6730-4ce6-9744-d06e7b5c1ee6",
+            "sourceColumn": "Temp_Minima_Hora"
+          },
+          {
+            "name": "Umidade_Relativa",
+            "dataType": "double",
+            "lineageTag": "478f9176-a72a-4df4-8988-4435bc967c8a",
+            "sourceColumn": "Umidade_Relativa"
+          },
+          {
+            "name": "Direcao_Vento",
+            "dataType": "int64",
+            "lineageTag": "46946b06-9d34-41c7-82e6-6766cbe048c4",
+            "sourceColumn": "Direcao_Vento"
+          },
+          {
+            "name": "Rajada_Vento",
+            "dataType": "double",
+            "lineageTag": "ae7e7d38-e367-446a-a7de-5d69e41e1461",
+            "sourceColumn": "Rajada_Vento"
+          },
+          {
+            "name": "Velocidade_Vento",
+            "dataType": "double",
+            "lineageTag": "abfb8269-505f-483d-8990-e26772dc6585",
+            "sourceColumn": "Velocidade_Vento"
+          },
+          {
+            "name": "Cidade",
+            "dataType": "string",
+            "lineageTag": "5f33bc34-0d90-422e-ab11-5d68d4cb9f2b",
+            "sourceColumn": "Cidade"
+          },
+          {
+            "name": "Codigo_WMO",
+            "dataType": "string",
+            "lineageTag": "2203d71b-38bb-4e49-8391-e6983ea07f9e",
+            "sourceColumn": "Codigo_WMO"
+          },
+          {
+            "name": "Hora_Dia",
+            "dataType": "int64",
+            "lineageTag": "1388ecb4-cbee-4504-a959-a0d3193e2890",
+            "sourceColumn": "Hora_Dia"
+          },
+          {
+            "name": "Turno",
+            "dataType": "string",
+            "lineageTag": "5322780f-d378-4786-92a5-7f81a61f71cb",
+            "sourceColumn": "Turno"
+          },
+          {
+            "name": "Periodo_Solar",
+            "dataType": "string",
+            "lineageTag": "52d67267-ae59-4dfa-a7b2-100ad80fdf08",
+            "sourceColumn": "Periodo_Solar"
+          },
+          {
+            "name": "Indice_Hora",
+            "dataType": "int64",
+            "lineageTag": "8c1151d2-bbc0-4bfe-a249-d3234d40d45f",
+            "sourceColumn": "Indice_Hora"
+          },
+          {
+            "name": "Amplitude_Horaria",
+            "dataType": "double",
+            "lineageTag": "f232e133-a11d-4911-9b08-6fb43ee783f1",
+            "sourceColumn": "Amplitude_Horaria"
+          },
+          {
+            "name": "Sensacao_Termica",
+            "dataType": "double",
+            "lineageTag": "380aa78d-61d9-40cd-adbe-67f419bd6a97",
+            "sourceColumn": "Sensacao_Termica"
+          },
+          {
+            "name": "Media_Movel_24h",
+            "dataType": "double",
+            "lineageTag": "c02f9d72-5920-4825-8492-d801982cfa2d",
+            "sourceColumn": "Media_Movel_24h"
+          },
+          {
+            "name": "Z_Score_Temp",
+            "dataType": "double",
+            "lineageTag": "1662ba0a-9b6e-4420-b95b-917196ad5330",
+            "sourceColumn": "Z_Score_Temp"
+          },
+          {
+            "name": "Anomalia_Termica",
+            "dataType": "string",
+            "lineageTag": "206a6161-7c61-4ef9-968a-06b4e2cfff6c",
+            "sourceColumn": "Anomalia_Termica"
+          },
+          {
+            "name": "Faixa_Conforto",
+            "dataType": "string",
+            "lineageTag": "0f09bbc1-3f30-4b2f-aae1-b1e43e648fa7",
+            "sourceColumn": "Faixa_Conforto"
+          },
+          {
+            "name": "Classificacao_Chuva",
+            "dataType": "string",
+            "lineageTag": "7a13bfa1-776b-49fe-b3e6-975e58264456",
+            "sourceColumn": "Classificacao_Chuva"
+          },
+          {
+            "name": "Temp_Prevista_Regressao",
+            "dataType": "double",
+            "lineageTag": "33c41773-474c-4b4f-9a10-f488c8b428f9",
+            "sourceColumn": "Temp_Prevista_Regressao"
+          },
+          {
+            "name": "Erro_Regressao",
+            "dataType": "double",
+            "lineageTag": "872e0c87-5fe3-4bf4-89ee-cb192db2c4db",
+            "sourceColumn": "Erro_Regressao"
+          }
         ],
+        "lineageTag": "4b5ecca9-e221-4276-8127-72022fe97112",
         "measures": [
           {
             "name": "Temperatura Media",
             "expression": "AVERAGE(fato_inmet_horaria[Temperatura_Ar])",
-            "formatString": "0.00 \"°C\""
+            "formatString": "0.00 \"°C\"",
+            "lineageTag": "074ddd25-b129-40bc-be38-462109526f6b"
           },
           {
             "name": "Sensacao Termica Media",
             "expression": "AVERAGE(fato_inmet_horaria[Sensacao_Termica])",
-            "formatString": "0.00 \"°C\""
+            "formatString": "0.00 \"°C\"",
+            "lineageTag": "5a295028-e58e-404a-9430-f78ce04c5d49"
           },
           {
             "name": "Temperatura Maxima",
             "expression": "MAX(fato_inmet_horaria[Temp_Maxima_Hora])",
-            "formatString": "0.00 \"°C\""
+            "formatString": "0.00 \"°C\"",
+            "lineageTag": "c4947d95-67e8-45d5-8388-7b5617d844e5"
           },
           {
             "name": "Temperatura Minima",
             "expression": "MIN(fato_inmet_horaria[Temp_Minima_Hora])",
-            "formatString": "0.00 \"°C\""
+            "formatString": "0.00 \"°C\"",
+            "lineageTag": "86072c74-d99a-455b-92a4-c556073ba4ca"
           },
           {
             "name": "Amplitude Termica",
             "expression": "MAX(fato_inmet_horaria[Temp_Maxima_Hora]) - MIN(fato_inmet_horaria[Temp_Minima_Hora])",
-            "formatString": "0.00 \"°C\""
+            "formatString": "0.00 \"°C\"",
+            "lineageTag": "f9ab26a6-e8ef-4cdd-a844-9d40caee2e5f"
           },
           {
             "name": "Umidade Media",
             "expression": "AVERAGE(fato_inmet_horaria[Umidade_Relativa])",
-            "formatString": "0.0 \"%\""
+            "formatString": "0.0 \"%\"",
+            "lineageTag": "1aef00d9-b07e-490e-b8f2-8010139d7cd6"
           },
           {
             "name": "Chuva Acumulada (mm)",
             "expression": "SUM(fato_inmet_horaria[Precipitacao_mm])",
-            "formatString": "#,0.0 \"mm\""
+            "formatString": "#,0.0 \"mm\"",
+            "lineageTag": "d514d7c8-c9db-4b04-ad0d-d4419d841b5c"
           },
           {
             "name": "Pressao Media (mB)",
             "expression": "AVERAGE(fato_inmet_horaria[Pressao_Atmosferica])",
-            "formatString": "#,0.0 \"mB\""
+            "formatString": "#,0.0 \"mB\"",
+            "lineageTag": "fb02675c-cf40-424e-a980-6462a6e72c03"
           },
           {
             "name": "Horas Anomalia Termica",
             "expression": "CALCULATE(COUNTROWS(fato_inmet_horaria), fato_inmet_horaria[Anomalia_Termica] = \"Anomalia\")",
-            "formatString": "#,0"
+            "formatString": "#,0",
+            "lineageTag": "66b104cd-9531-4f3e-9e85-11fc9e43638d"
           }
         ],
         "partitions": [
@@ -177,7 +550,6 @@
             "name": "fato_inmet_horaria",
             "mode": "import",
             "source": {
-              "type": "m",
               "expression": [
                 "let",
                 "    Fonte = Csv.Document(File.Contents(\"e:\\filli\\OneDrive\\Documentos\\PowerBI e Python\\modelo_powerbi\\fato_inmet_horaria.csv\"),[Delimiter=\";\", Columns=28, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
@@ -185,7 +557,8 @@
                 "    Tipos = Table.TransformColumnTypes(Cabecalhos,{{\"Data\", type date}, {\"Hora_UTC\", type text}, {\"Precipitacao_mm\", type number}, {\"Pressao_Atmosferica\", type number}, {\"Radiacao_Global\", type number}, {\"Temperatura_Ar\", type number}, {\"Ponto_Orvalho\", type number}, {\"Temp_Maxima_Hora\", type number}, {\"Temp_Minima_Hora\", type number}, {\"Umidade_Relativa\", type number}, {\"Direcao_Vento\", Int64.Type}, {\"Rajada_Vento\", type number}, {\"Velocidade_Vento\", type number}, {\"Cidade\", type text}, {\"Codigo_WMO\", type text}, {\"Hora_Dia\", Int64.Type}, {\"Turno\", type text}, {\"Periodo_Solar\", type text}, {\"Indice_Hora\", Int64.Type}, {\"Amplitude_Horaria\", type number}, {\"Sensacao_Termica\", type number}, {\"Media_Movel_24h\", type number}, {\"Z_Score_Temp\", type number}, {\"Anomalia_Termica\", type text}, {\"Faixa_Conforto\", type text}, {\"Classificacao_Chuva\", type text}, {\"Temp_Prevista_Regressao\", type number}, {\"Erro_Regressao\", type number}}, \"pt-BR\")",
                 "in",
                 "    Tipos"
-              ]
+              ],
+              "type": "m"
             }
           }
         ]
@@ -193,28 +566,224 @@
       {
         "name": "fato_inmet_diaria",
         "columns": [
-          { "name": "Data", "dataType": "dateTime", "sourceColumn": "Data", "formatString": "dd/mm/yyyy" },
-          { "name": "Codigo_WMO", "dataType": "string", "sourceColumn": "Codigo_WMO" },
-          { "name": "Cidade", "dataType": "string", "sourceColumn": "Cidade" },
-          { "name": "Temp_Min_Dia", "dataType": "double", "sourceColumn": "Temp_Min_Dia" },
-          { "name": "Temp_Media_Dia", "dataType": "double", "sourceColumn": "Temp_Media_Dia" },
-          { "name": "Temp_Max_Dia", "dataType": "double", "sourceColumn": "Temp_Max_Dia" },
-          { "name": "Sensacao_Media_Dia", "dataType": "double", "sourceColumn": "Sensacao_Media_Dia" },
-          { "name": "Umidade_Media_Dia", "dataType": "double", "sourceColumn": "Umidade_Media_Dia" },
-          { "name": "Pressao_Media_Dia", "dataType": "double", "sourceColumn": "Pressao_Media_Dia" },
-          { "name": "Chuva_Total_Dia_mm", "dataType": "double", "sourceColumn": "Chuva_Total_Dia_mm" },
-          { "name": "Radiacao_Total_Dia", "dataType": "double", "sourceColumn": "Radiacao_Total_Dia" },
-          { "name": "Vento_Medio_Dia", "dataType": "double", "sourceColumn": "Vento_Medio_Dia" },
-          { "name": "Rajada_Max_Dia", "dataType": "double", "sourceColumn": "Rajada_Max_Dia" },
-          { "name": "Amplitude_Diaria", "dataType": "double", "sourceColumn": "Amplitude_Diaria" },
-          { "name": "Dia_Com_Chuva", "dataType": "string", "sourceColumn": "Dia_Com_Chuva" }
+          {
+            "name": "Data",
+            "annotations": [
+              {
+                "name": "UnderlyingDateTimeDataType",
+                "value": "Date"
+              },
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "dateTime",
+            "formatString": "dd/mm/yyyy",
+            "lineageTag": "5455a89e-24ca-490b-9a16-dea6426087c0",
+            "sourceColumn": "Data",
+            "summarizeBy": "none",
+            "variations": [
+              {
+                "name": "Variação",
+                "defaultHierarchy": {
+                  "hierarchy": "Hierarquia de datas",
+                  "table": "LocalDateTable_954f0d15-d635-41da-a2bd-4bd7e066ecaf"
+                },
+                "isDefault": true,
+                "relationship": "f539f2d0-d055-40cc-9863-76a7514d6c33"
+              }
+            ]
+          },
+          {
+            "name": "Codigo_WMO",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "a259d273-0a65-41a5-9d2f-ae80e0268ab7",
+            "sourceColumn": "Codigo_WMO",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Cidade",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "961eb928-fe02-43b7-821d-913a2436ac82",
+            "sourceColumn": "Cidade",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Temp_Min_Dia",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "86bf7d45-3a02-4c12-8ea1-43cc24a184fb",
+            "sourceColumn": "Temp_Min_Dia",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Temp_Media_Dia",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "ca7b84e7-e6dd-4965-a395-4485eb2dc602",
+            "sourceColumn": "Temp_Media_Dia",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Temp_Max_Dia",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "cc8eebef-8ef6-4628-8b57-2eb0949c465e",
+            "sourceColumn": "Temp_Max_Dia",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Sensacao_Media_Dia",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "98ee9b6e-02b7-43e1-9519-1d2e56882bbb",
+            "sourceColumn": "Sensacao_Media_Dia",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Umidade_Media_Dia",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "8504985f-362f-4961-8335-975e9df8dea8",
+            "sourceColumn": "Umidade_Media_Dia",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Pressao_Media_Dia",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "1d3cec57-bd95-409e-8dbc-988433c8c4fe",
+            "sourceColumn": "Pressao_Media_Dia",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Chuva_Total_Dia_mm",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "f9bf9478-b9c6-4499-93e5-c6b5309277c2",
+            "sourceColumn": "Chuva_Total_Dia_mm",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Radiacao_Total_Dia",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "884bc3ee-bc37-40ff-a0d3-e61a30f39c0e",
+            "sourceColumn": "Radiacao_Total_Dia",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Vento_Medio_Dia",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "1d59b7b2-b4e3-44e3-9d12-731478cf14b0",
+            "sourceColumn": "Vento_Medio_Dia",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Rajada_Max_Dia",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "2bdc135c-aeef-4476-a7ae-22cf5bbb4c11",
+            "sourceColumn": "Rajada_Max_Dia",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Amplitude_Diaria",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "double",
+            "lineageTag": "18f2b7be-4b85-4312-b816-cbf11f90806d",
+            "sourceColumn": "Amplitude_Diaria",
+            "summarizeBy": "sum"
+          },
+          {
+            "name": "Dia_Com_Chuva",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "Automatic"
+              }
+            ],
+            "dataType": "string",
+            "lineageTag": "800c670f-44d9-421c-a73f-832410f0b536",
+            "sourceColumn": "Dia_Com_Chuva",
+            "summarizeBy": "none"
+          }
         ],
+        "lineageTag": "d5158216-60c9-475b-ba51-f00a183b2b6a",
         "partitions": [
           {
             "name": "fato_inmet_diaria",
             "mode": "import",
             "source": {
-              "type": "m",
               "expression": [
                 "let",
                 "    Fonte = Csv.Document(File.Contents(\"e:\\filli\\OneDrive\\Documentos\\PowerBI e Python\\modelo_powerbi\\fato_inmet_diaria.csv\"),[Delimiter=\";\", Columns=15, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
@@ -222,7 +791,8 @@
                 "    Tipos = Table.TransformColumnTypes(Cabecalhos,{{\"Data\", type date}, {\"Codigo_WMO\", type text}, {\"Cidade\", type text}, {\"Temp_Min_Dia\", type number}, {\"Temp_Media_Dia\", type number}, {\"Temp_Max_Dia\", type number}, {\"Sensacao_Media_Dia\", type number}, {\"Umidade_Media_Dia\", type number}, {\"Pressao_Media_Dia\", type number}, {\"Chuva_Total_Dia_mm\", type number}, {\"Radiacao_Total_Dia\", type number}, {\"Vento_Medio_Dia\", type number}, {\"Rajada_Max_Dia\", type number}, {\"Amplitude_Diaria\", type number}, {\"Dia_Com_Chuva\", type text}}, \"pt-BR\")",
                 "in",
                 "    Tipos"
-              ]
+              ],
+              "type": "m"
             }
           }
         ]
@@ -230,25 +800,85 @@
       {
         "name": "estatisticas_multivariadas_inmet",
         "columns": [
-          { "name": "Cidade", "dataType": "string", "sourceColumn": "Cidade" },
-          { "name": "Variavel", "dataType": "string", "sourceColumn": "Variavel" },
-          { "name": "N_Amostras", "dataType": "int64", "sourceColumn": "N_Amostras" },
-          { "name": "Minimo", "dataType": "double", "sourceColumn": "Minimo" },
-          { "name": "Maximo", "dataType": "double", "sourceColumn": "Maximo" },
-          { "name": "Media", "dataType": "double", "sourceColumn": "Media" },
-          { "name": "Mediana", "dataType": "double", "sourceColumn": "Mediana" },
-          { "name": "Moda", "dataType": "double", "sourceColumn": "Moda" },
-          { "name": "Amplitude", "dataType": "double", "sourceColumn": "Amplitude" },
-          { "name": "Variancia", "dataType": "double", "sourceColumn": "Variancia" },
-          { "name": "Desvio_Padrao", "dataType": "double", "sourceColumn": "Desvio_Padrao" },
-          { "name": "CV_Pct", "dataType": "double", "sourceColumn": "CV_Pct" }
+          {
+            "name": "Cidade",
+            "dataType": "string",
+            "lineageTag": "eaa092e1-3746-40f9-a741-68dfd61ef869",
+            "sourceColumn": "Cidade"
+          },
+          {
+            "name": "Variavel",
+            "dataType": "string",
+            "lineageTag": "f52cfa22-4f8e-45eb-9c61-c3bc1174bcc6",
+            "sourceColumn": "Variavel"
+          },
+          {
+            "name": "N_Amostras",
+            "dataType": "int64",
+            "lineageTag": "ec01657b-1d06-466a-894d-9ed9d389ac38",
+            "sourceColumn": "N_Amostras"
+          },
+          {
+            "name": "Minimo",
+            "dataType": "double",
+            "lineageTag": "28cb9045-663f-47f2-8242-d3a7db5e9dbf",
+            "sourceColumn": "Minimo"
+          },
+          {
+            "name": "Maximo",
+            "dataType": "double",
+            "lineageTag": "d08c3893-bcc0-45e3-9fe7-3ba162079d13",
+            "sourceColumn": "Maximo"
+          },
+          {
+            "name": "Media",
+            "dataType": "double",
+            "lineageTag": "8232f83f-68e7-42b3-b64c-2e533dac8313",
+            "sourceColumn": "Media"
+          },
+          {
+            "name": "Mediana",
+            "dataType": "double",
+            "lineageTag": "4ea79355-a693-4405-9230-39c6fe84406e",
+            "sourceColumn": "Mediana"
+          },
+          {
+            "name": "Moda",
+            "dataType": "double",
+            "lineageTag": "d6729a14-f42b-49fa-bba2-3418b8de82e5",
+            "sourceColumn": "Moda"
+          },
+          {
+            "name": "Amplitude",
+            "dataType": "double",
+            "lineageTag": "b608680b-3299-4271-a4cc-eafc419c6192",
+            "sourceColumn": "Amplitude"
+          },
+          {
+            "name": "Variancia",
+            "dataType": "double",
+            "lineageTag": "05425800-87a1-49ad-8421-ab690690529e",
+            "sourceColumn": "Variancia"
+          },
+          {
+            "name": "Desvio_Padrao",
+            "dataType": "double",
+            "lineageTag": "e51999e1-7930-445e-ba09-c277b8b63283",
+            "sourceColumn": "Desvio_Padrao"
+          },
+          {
+            "name": "CV_Pct",
+            "dataType": "double",
+            "lineageTag": "648ecc71-82ee-4697-bc4a-3b5acbf78de1",
+            "sourceColumn": "CV_Pct"
+          }
         ],
+        "lineageTag": "13656195-2153-4725-9581-84019b92db6a",
         "partitions": [
           {
             "name": "estatisticas_multivariadas_inmet",
             "mode": "import",
             "source": {
-              "type": "m",
               "expression": [
                 "let",
                 "    Fonte = Csv.Document(File.Contents(\"e:\\filli\\OneDrive\\Documentos\\PowerBI e Python\\modelo_powerbi\\estatisticas_multivariadas_inmet.csv\"),[Delimiter=\";\", Columns=12, Encoding=65001, QuoteStyle=QuoteStyle.None]),",
@@ -256,35 +886,634 @@
                 "    Tipos = Table.TransformColumnTypes(Cabecalhos,{{\"Cidade\", type text}, {\"Variavel\", type text}, {\"N_Amostras\", Int64.Type}, {\"Minimo\", type number}, {\"Maximo\", type number}, {\"Media\", type number}, {\"Mediana\", type number}, {\"Moda\", type number}, {\"Amplitude\", type number}, {\"Variancia\", type number}, {\"Desvio_Padrao\", type number}, {\"CV_Pct\", type number}}, \"pt-BR\")",
                 "in",
                 "    Tipos"
-              ]
+              ],
+              "type": "m"
             }
           }
         ]
-      }
-    ],
-    "relationships": [
-      {
-        "name": "rel_calendario_horaria",
-        "fromTable": "fato_inmet_horaria",
-        "fromColumn": "Data",
-        "toTable": "dim_calendario",
-        "toColumn": "Data"
       },
       {
-        "name": "rel_estacao_horaria",
-        "fromTable": "fato_inmet_horaria",
-        "fromColumn": "Codigo_WMO",
-        "toTable": "dim_estacoes_inmet",
-        "toColumn": "Codigo_WMO"
+        "name": "DateTableTemplate_0db754d2-5d60-4479-bfb3-bd8fdbdc6ee2",
+        "annotations": [
+          {
+            "name": "__PBI_TemplateDateTable",
+            "value": "true"
+          },
+          {
+            "name": "DefaultItem",
+            "value": "DateHierarchy"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataCategory": "PaddedDateTableDates",
+            "dataType": "dateTime",
+            "formatString": "General Date",
+            "isHidden": true,
+            "isNameInferred": true,
+            "lineageTag": "2d363dae-dcf3-4e2b-b5af-039c39c5908f",
+            "sourceColumn": "[Date]",
+            "summarizeBy": "none",
+            "type": "calculatedTableColumn"
+          },
+          {
+            "name": "Ano",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Year"
+              }
+            ],
+            "dataCategory": "Years",
+            "dataType": "int64",
+            "expression": "YEAR([Date])",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "56ae06d9-5f74-4ccb-9ae1-98cdd24c461b",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "MonthNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "MonthNumber"
+              }
+            ],
+            "dataCategory": "MonthOfYear",
+            "dataType": "int64",
+            "expression": "MONTH([Date])",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "4f39316e-8360-45f0-856d-e084c0ca7893",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Mês",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Month"
+              }
+            ],
+            "dataCategory": "Months",
+            "dataType": "string",
+            "expression": "FORMAT([Date], \"MMMM\")",
+            "isHidden": true,
+            "lineageTag": "633c8bfc-66f1-43c8-b9e7-57cfb26f426b",
+            "sortByColumn": "MonthNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "QuarterNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "QuarterNumber"
+              }
+            ],
+            "dataCategory": "QuarterOfYear",
+            "dataType": "int64",
+            "expression": "INT(([MonthNo] + 2) / 3)",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "1d987eea-ef50-4a2b-b7a0-66faeda7a23d",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Trimestre",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Quarter"
+              }
+            ],
+            "dataCategory": "Quarters",
+            "dataType": "string",
+            "expression": "\"Qtr \" & [QuarterNo]",
+            "isHidden": true,
+            "lineageTag": "af37c621-ac7b-4c27-a1a2-6a57c8c71087",
+            "sortByColumn": "QuarterNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Dia",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Day"
+              }
+            ],
+            "dataCategory": "DayOfMonth",
+            "dataType": "int64",
+            "expression": "DAY([Date])",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "f1b0d2ae-bac2-4881-bc36-ae2b109e616c",
+            "summarizeBy": "none",
+            "type": "calculated"
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Hierarquia de datas",
+            "annotations": [
+              {
+                "name": "TemplateId",
+                "value": "DateHierarchy"
+              }
+            ],
+            "levels": [
+              {
+                "name": "Ano",
+                "column": "Ano",
+                "lineageTag": "7fec5569-c3a1-4740-9be4-bc3b5f4980bf",
+                "ordinal": 0
+              },
+              {
+                "name": "Trimestre",
+                "column": "Trimestre",
+                "lineageTag": "c6b2b6c6-88f6-45cf-a8f3-953d2c27011e",
+                "ordinal": 1
+              },
+              {
+                "name": "Mês",
+                "column": "Mês",
+                "lineageTag": "2351168c-fe37-4f67-a949-3b80ce6e8590",
+                "ordinal": 2
+              },
+              {
+                "name": "Dia",
+                "column": "Dia",
+                "lineageTag": "0187498c-d010-4702-9fbd-6be0eb3ca69d",
+                "ordinal": 3
+              }
+            ],
+            "lineageTag": "a482408a-8417-4cf1-9ee5-b907388679c3"
+          }
+        ],
+        "isHidden": true,
+        "isPrivate": true,
+        "lineageTag": "1dc1b98b-d5a1-4eed-9383-ed721a1b6426",
+        "partitions": [
+          {
+            "name": "DateTableTemplate_0db754d2-5d60-4479-bfb3-bd8fdbdc6ee2",
+            "mode": "import",
+            "source": {
+              "expression": "Calendar(Date(2015,1,1), Date(2015,1,1))",
+              "type": "calculated"
+            }
+          }
+        ]
       },
       {
-        "name": "rel_horario_turno",
-        "fromTable": "fato_inmet_horaria",
-        "fromColumn": "Hora_Dia",
-        "toTable": "dim_horario_turno",
-        "toColumn": "Hora_Dia"
+        "name": "LocalDateTable_b079f629-cd0d-4d94-b236-61574a169e60",
+        "annotations": [
+          {
+            "name": "__PBI_LocalDateTable",
+            "value": "true"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataCategory": "PaddedDateTableDates",
+            "dataType": "dateTime",
+            "formatString": "General Date",
+            "isHidden": true,
+            "isNameInferred": true,
+            "lineageTag": "82be2412-abc3-4df6-a052-3459a6da7790",
+            "sourceColumn": "[Date]",
+            "summarizeBy": "none",
+            "type": "calculatedTableColumn"
+          },
+          {
+            "name": "Ano",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Year"
+              }
+            ],
+            "dataCategory": "Years",
+            "dataType": "int64",
+            "expression": "YEAR([Date])",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "9e915da8-0861-4992-a462-712604f1ec03",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "MonthNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "MonthNumber"
+              }
+            ],
+            "dataCategory": "MonthOfYear",
+            "dataType": "int64",
+            "expression": "MONTH([Date])",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "4c9f0660-611a-406f-aa51-df7d9ad58947",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Mês",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Month"
+              }
+            ],
+            "dataCategory": "Months",
+            "dataType": "string",
+            "expression": "FORMAT([Date], \"MMMM\")",
+            "isHidden": true,
+            "lineageTag": "5da2fe11-ca0c-45fe-b5eb-4fad3820acd1",
+            "sortByColumn": "MonthNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "QuarterNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "QuarterNumber"
+              }
+            ],
+            "dataCategory": "QuarterOfYear",
+            "dataType": "int64",
+            "expression": "INT(([MonthNo] + 2) / 3)",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "cfb32d09-8b58-4db2-9c26-0b07d4cf3222",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Trimestre",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Quarter"
+              }
+            ],
+            "dataCategory": "Quarters",
+            "dataType": "string",
+            "expression": "\"Qtr \" & [QuarterNo]",
+            "isHidden": true,
+            "lineageTag": "c0682354-edf8-4430-a583-3c77616fb646",
+            "sortByColumn": "QuarterNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Dia",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Day"
+              }
+            ],
+            "dataCategory": "DayOfMonth",
+            "dataType": "int64",
+            "expression": "DAY([Date])",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "6efb5cc6-1783-49b0-b603-c78b6c5a5c3e",
+            "summarizeBy": "none",
+            "type": "calculated"
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Hierarquia de datas",
+            "annotations": [
+              {
+                "name": "TemplateId",
+                "value": "DateHierarchy"
+              }
+            ],
+            "levels": [
+              {
+                "name": "Ano",
+                "column": "Ano",
+                "lineageTag": "57d50f05-8d10-4422-a07d-5e781f0c3389",
+                "ordinal": 0
+              },
+              {
+                "name": "Trimestre",
+                "column": "Trimestre",
+                "lineageTag": "7558acec-ab41-4f6b-8ad0-29b6f2769cb1",
+                "ordinal": 1
+              },
+              {
+                "name": "Mês",
+                "column": "Mês",
+                "lineageTag": "7acde5a0-4d2d-4b09-bc62-2a9384aebef4",
+                "ordinal": 2
+              },
+              {
+                "name": "Dia",
+                "column": "Dia",
+                "lineageTag": "fdf9a554-eb7d-41a0-b433-2ecf7aeb8ec1",
+                "ordinal": 3
+              }
+            ],
+            "lineageTag": "e18da072-ab2d-406c-b99c-c8b45c39cb06"
+          }
+        ],
+        "isHidden": true,
+        "lineageTag": "000d57b6-d6b6-4d64-a176-2bf64847f931",
+        "partitions": [
+          {
+            "name": "LocalDateTable_b079f629-cd0d-4d94-b236-61574a169e60",
+            "mode": "import",
+            "source": {
+              "expression": "Calendar(Date(Year(MIN('dim_calendario'[Data])), 1, 1), Date(Year(MAX('dim_calendario'[Data])), 12, 31))",
+              "type": "calculated"
+            }
+          }
+        ],
+        "showAsVariationsOnly": true
+      },
+      {
+        "name": "LocalDateTable_954f0d15-d635-41da-a2bd-4bd7e066ecaf",
+        "annotations": [
+          {
+            "name": "__PBI_LocalDateTable",
+            "value": "true"
+          }
+        ],
+        "columns": [
+          {
+            "name": "Date",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              }
+            ],
+            "dataCategory": "PaddedDateTableDates",
+            "dataType": "dateTime",
+            "formatString": "General Date",
+            "isHidden": true,
+            "isNameInferred": true,
+            "lineageTag": "c1e0b0c1-1d06-4535-89cf-41f25cd15ebc",
+            "sourceColumn": "[Date]",
+            "summarizeBy": "none",
+            "type": "calculatedTableColumn"
+          },
+          {
+            "name": "Ano",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Year"
+              }
+            ],
+            "dataCategory": "Years",
+            "dataType": "int64",
+            "expression": "YEAR([Date])",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "847afde3-c361-447e-ab71-8451df4b86af",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "MonthNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "MonthNumber"
+              }
+            ],
+            "dataCategory": "MonthOfYear",
+            "dataType": "int64",
+            "expression": "MONTH([Date])",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "bb019b6e-51a7-4b3a-9d39-ae9b9c837d33",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Mês",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Month"
+              }
+            ],
+            "dataCategory": "Months",
+            "dataType": "string",
+            "expression": "FORMAT([Date], \"MMMM\")",
+            "isHidden": true,
+            "lineageTag": "47450b4c-15b3-4883-8ccc-63b75d373b75",
+            "sortByColumn": "MonthNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "QuarterNo",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "QuarterNumber"
+              }
+            ],
+            "dataCategory": "QuarterOfYear",
+            "dataType": "int64",
+            "expression": "INT(([MonthNo] + 2) / 3)",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "4e22e1f2-4bd0-48ab-a5cb-8ec8390d69f6",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Trimestre",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Quarter"
+              }
+            ],
+            "dataCategory": "Quarters",
+            "dataType": "string",
+            "expression": "\"Qtr \" & [QuarterNo]",
+            "isHidden": true,
+            "lineageTag": "4b27414b-4667-42e8-94f1-9597ca900fdd",
+            "sortByColumn": "QuarterNo",
+            "summarizeBy": "none",
+            "type": "calculated"
+          },
+          {
+            "name": "Dia",
+            "annotations": [
+              {
+                "name": "SummarizationSetBy",
+                "value": "User"
+              },
+              {
+                "name": "TemplateId",
+                "value": "Day"
+              }
+            ],
+            "dataCategory": "DayOfMonth",
+            "dataType": "int64",
+            "expression": "DAY([Date])",
+            "formatString": "0",
+            "isHidden": true,
+            "lineageTag": "4138c8b8-b661-452b-bb78-0c40bcfa8f81",
+            "summarizeBy": "none",
+            "type": "calculated"
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Hierarquia de datas",
+            "annotations": [
+              {
+                "name": "TemplateId",
+                "value": "DateHierarchy"
+              }
+            ],
+            "levels": [
+              {
+                "name": "Ano",
+                "column": "Ano",
+                "lineageTag": "43036e23-53b8-47de-93e9-2e0a126e173c",
+                "ordinal": 0
+              },
+              {
+                "name": "Trimestre",
+                "column": "Trimestre",
+                "lineageTag": "3f6c4dfa-56f7-47b4-b3f7-910729761044",
+                "ordinal": 1
+              },
+              {
+                "name": "Mês",
+                "column": "Mês",
+                "lineageTag": "348caa6c-be3a-49a9-b178-c4ed36a9e327",
+                "ordinal": 2
+              },
+              {
+                "name": "Dia",
+                "column": "Dia",
+                "lineageTag": "98819044-08f1-4a3d-9b0b-c3d545ea274f",
+                "ordinal": 3
+              }
+            ],
+            "lineageTag": "5e062ce0-b3a2-494c-ba23-80805ea67871"
+          }
+        ],
+        "isHidden": true,
+        "lineageTag": "b02c8450-2d1e-47df-81cc-579643c2d551",
+        "partitions": [
+          {
+            "name": "LocalDateTable_954f0d15-d635-41da-a2bd-4bd7e066ecaf",
+            "mode": "import",
+            "source": {
+              "expression": "Calendar(Date(Year(MIN('fato_inmet_diaria'[Data])), 1, 1), Date(Year(MAX('fato_inmet_diaria'[Data])), 12, 31))",
+              "type": "calculated"
+            }
+          }
+        ],
+        "showAsVariationsOnly": true
       }
     ]
   }
 }
-

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "chart_turno",
+  "position": {
+    "x": 20,
+    "y": 135,
+    "z": 5000,
+    "height": 270,
+    "width": 610
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fato_inmet_horaria"
+                    }
+                  },
+                  "Property": "Turno"
+                }
+              },
+              "queryRef": "fato_inmet_horaria.Turno",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fato_inmet_horaria"
+                    }
+                  },
+                  "Property": "Cidade"
+                }
+              },
+              "queryRef": "fato_inmet_horaria.Cidade"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fato_inmet_horaria"
+                    }
+                  },
+                  "Property": "Temperatura Media"
+                }
+              },
+              "queryRef": "fato_inmet_horaria.Temperatura Media"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
